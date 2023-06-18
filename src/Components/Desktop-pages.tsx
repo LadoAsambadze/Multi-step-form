@@ -29,7 +29,7 @@ export default function DesktopPages() {
           <NumCircle>4</NumCircle>
           <NumTextDiv>
             <Step>Step 4</Step>
-            <Description>SUMMARY</Description>
+            <Description>YOUR INFO</Description>
           </NumTextDiv>
         </StepNumDiv>
       </DesktopNum>
@@ -39,7 +39,7 @@ export default function DesktopPages() {
 
 const DesktopNum = styled.div`
   display: none;
-  @media (min-width: 1400x) {
+  @media (min-width: 1400px) {
     background: url("bg-sidebar-desktop.svg");
     width: 300px;
     height: 568px;

@@ -15,13 +15,11 @@ export default function Mobile() {
 
 const Main = styled.div`
   padding: 32px 20% 32px 20%;
-
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
   @media (min-width: 1400px) {
     display: none;
   }
