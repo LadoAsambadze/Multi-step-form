@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import Mobile from "../Components/Mobile-pages";
-import { SubmitHandler, useForm } from "react-hook-form";
+// import { SubmitHandler, useForm } from "react-hook-form";
 import DesktopPages from "../Components/Desktop-pages";
 
 // interface Type {
@@ -77,7 +77,7 @@ const Section = styled.section`
     background: #eff5ff;
   }
 `;
-const SectionBack = styled.form`
+const SectionBack = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -142,7 +142,7 @@ const Instruction = styled.p`
   }
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   margin-top: 22px;
   display: flex;
   flex-direction: column;
