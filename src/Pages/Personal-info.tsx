@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import Mobile from "../Components/Mobile-pages";
 // import { SubmitHandler, useForm } from "react-hook-form";
 import DesktopPages from "../Components/Desktop-pages";
+import { Link } from "react-router-dom";
 
 // interface Type {
 //   name: string;
@@ -50,14 +51,18 @@ export default function PersonalInfo() {
                     // {...register("number")}
                   />
                   <NextDivDesktop>
-                    <NextButtonDesktop>Next Step</NextButtonDesktop>
+                    <Link to="/plan">
+                      <NextButtonDesktop>Next Step</NextButtonDesktop>
+                    </Link>
                   </NextDivDesktop>
                 </Form>
               </Info>
             </div>
           </Main>
           <NextDiv>
-            <NextButton type="submit">Next Step</NextButton>
+            <Link to="/plan">
+              <NextButton type="submit">Next Step</NextButton>
+            </Link>
           </NextDiv>
         </SectionBack>
       </Section>
@@ -104,7 +109,7 @@ const Main = styled.div`
   padding-bottom: 120px;
   @media (min-width: 1400px) {
     background: none;
-    padding: 0px 84px 0px 100px;
+    padding: 0px 85px 0px 100px;
   }
 `;
 const Info = styled.div`
@@ -147,7 +152,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   @media (min-width: 1400px) {
-    margin-top: 35px;
+    margin-top: 0;
   }
 `;
 
@@ -219,7 +224,7 @@ const NextDivDesktop = styled.div`
     justify-content: flex-end;
     background-color: white;
     padding: 16px 16px 0px 0px;
-    margin-top: 92px;
+    margin-top: 135px;
   }
 `;
 const NextButtonDesktop = styled.button`

@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import DesktopPages from "../Components/Desktop-pages";
 import Mobile from "../Components/Mobile-pages";
-
+import { Link } from "react-router-dom";
 export default function Plan() {
   return (
     <>
@@ -49,13 +49,17 @@ export default function Plan() {
                   <Year>Yearly</Year>
                 </ButtonDiv>
                 <NextDivDesktop>
-                  <NextButtonDesktop>Next Step</NextButtonDesktop>
+                  <Link to="/addons">
+                    <NextButtonDesktop>Next Step</NextButtonDesktop>
+                  </Link>
                 </NextDivDesktop>
               </Form>
             </div>
           </Main>
           <NextDiv>
-            <NextButton type="submit">Next Step</NextButton>
+            <Link to="/addons">
+              <NextButton type="submit">Next Step</NextButton>
+            </Link>
           </NextDiv>
         </SectionBack>
       </Section>
@@ -86,6 +90,7 @@ const SectionBack = styled.div`
     width: 100%;
     background: white;
     padding: 16px;
+    padding-bottom: 32px;
     box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.0951141);
     border-radius: 15px;
   }
@@ -103,7 +108,7 @@ const Main = styled.div`
   padding-bottom: 24px;
   @media (min-width: 1400px) {
     background: none;
-    padding: 0px 84px 0px 100px;
+    padding: 0px 127px 0px 100px;
   }
 `;
 
@@ -147,7 +152,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   @media (min-width: 1400px) {
-    margin-top: 35px;
+    margin-top: 0;
   }
 `;
 
@@ -285,7 +290,7 @@ const NextDivDesktop = styled.div`
     display: flex;
     justify-content: flex-end;
     background-color: white;
-    margin-top: 124px;
+    margin-top: 105px;
   }
 `;
 const NextButtonDesktop = styled.button`

@@ -94,7 +94,7 @@ const Main = styled.div`
   padding-bottom: 120px;
   @media (min-width: 1400px) {
     background: none;
-    padding: 0px 84px 0px 100px;
+    padding: 0px 100px 0px 100px;
   }
 `;
 
@@ -239,7 +239,7 @@ const NextDivDesktop = styled.div`
     display: flex;
     justify-content: flex-end;
     background-color: white;
-    margin-top: 120px;
+    margin-top: 140px;
   }
 `;
 const NextButtonDesktop = styled.button`

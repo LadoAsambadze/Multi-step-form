@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import DesktopPages from "../Components/Desktop-pages";
 import Mobile from "../Components/Mobile-pages";
-
+import { Link } from "react-router-dom";
 export default function Addons() {
   return (
     <>
@@ -54,14 +54,18 @@ export default function Addons() {
                     </ChooseDiv>
                   </AddonDiv>
                   <NextDivDesktop>
-                    <NextButtonDesktop>Next Step</NextButtonDesktop>
+                    <Link to="/finish">
+                      <NextButtonDesktop>Next Step</NextButtonDesktop>
+                    </Link>
                   </NextDivDesktop>
                 </Form>
               </Info>
             </div>
           </Main>
           <NextDiv>
-            <NextButton type="submit">Next Step</NextButton>
+            <Link to="/finish">
+              <NextButton type="submit">Next Step</NextButton>
+            </Link>
           </NextDiv>
         </SectionBack>
       </Section>
@@ -109,7 +113,7 @@ const Main = styled.div`
   padding-bottom: 100px;
   @media (min-width: 1400px) {
     background: none;
-    padding: 0px 84px 0px 100px;
+    padding: 0px 100px 0px 100px;
   }
 `;
 
@@ -239,7 +243,7 @@ const NextDivDesktop = styled.div`
     display: flex;
     justify-content: flex-end;
     background-color: white;
-    margin-top: 81px;
+    margin-top: 95px;
   }
 `;
 const NextButtonDesktop = styled.button`
