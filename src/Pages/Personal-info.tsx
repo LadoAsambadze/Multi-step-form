@@ -3,22 +3,22 @@ import Mobile from "../Components/Mobile-pages";
 import { SubmitHandler, useForm } from "react-hook-form";
 import DesktopPages from "../Components/Desktop-pages";
 
-interface Type {
-  name: string;
-  email: string;
-  number: number;
-}
+// interface Type {
+//   name: string;
+//   email: string;
+//   number: number;
+// }
 
 export default function PersonalInfo() {
-  const { register, handleSubmit } = useForm<Type>();
+  // const { register, handleSubmit } = useForm<Type>();
 
-  const onSubmit: SubmitHandler<Type> = (data) => {
-    console.log(data);
-  };
+  // const onSubmit: SubmitHandler<Type> = (data) => {
+  //   console.log(data);
+  // };
   return (
     <>
       <Section>
-        <Forma onSubmit={handleSubmit(onSubmit)}>
+        <SectionBack>
           <DesktopPages />
           <Main>
             <Mobile />
@@ -35,19 +35,19 @@ export default function PersonalInfo() {
                   <Input
                     placeholder="e.g. Stephen King"
                     type="string"
-                    {...register("name")}
+                    // {...register("name")}
                   />
                   <Label>Email Address</Label>
                   <Input
                     placeholder="e.g. stephenking@lorem.com"
                     type="email"
-                    {...register("email")}
+                    // {...register("email")}
                   />
                   <Label>Phone Number</Label>
                   <Input
                     placeholder="e.g. +1 234 567 890"
                     type="number"
-                    {...register("number")}
+                    // {...register("number")}
                   />
                   <NextDivDesktop>
                     <NextButtonDesktop>Next Step</NextButtonDesktop>
@@ -59,7 +59,7 @@ export default function PersonalInfo() {
           <NextDiv>
             <NextButton type="submit">Next Step</NextButton>
           </NextDiv>
-        </Forma>
+        </SectionBack>
       </Section>
     </>
   );
@@ -77,7 +77,7 @@ const Section = styled.section`
     background: #eff5ff;
   }
 `;
-const Forma = styled.form`
+const SectionBack = styled.form`
   display: flex;
   flex-direction: column;
 
