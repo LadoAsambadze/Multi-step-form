@@ -2,7 +2,19 @@ import { styled } from "styled-components";
 import DesktopPages from "../Components/Desktop-pages";
 import Mobile from "../Components/Mobile-pages";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux/es/exports";
+import { setPage } from "../store/PageNum";
 export default function Plan() {
+  const page = useSelector((store: any) => store.page.Number);
+
+  const dispatch = useDispatch();
+
+  const nextHandler = () => {
+    dispatch(setPage(3));
+  };
+
+  console.log(page);
+
   return (
     <>
       <Section>
@@ -50,7 +62,9 @@ export default function Plan() {
                 </ButtonDiv>
                 <NextDivDesktop>
                   <Link to="/addons">
-                    <NextButtonDesktop>Next Step</NextButtonDesktop>
+                    <NextButtonDesktop onClick={nextHandler}>
+                      Next Step
+                    </NextButtonDesktop>
                   </Link>
                 </NextDivDesktop>
               </Form>
@@ -58,7 +72,9 @@ export default function Plan() {
           </Main>
           <NextDiv>
             <Link to="/addons">
-              <NextButton type="submit">Next Step</NextButton>
+              <NextButton onClick={nextHandler} type="submit">
+                Next Step
+              </NextButton>
             </Link>
           </NextDiv>
         </SectionBack>

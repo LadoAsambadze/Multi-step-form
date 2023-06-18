@@ -3,6 +3,9 @@ import Mobile from "../Components/Mobile-pages";
 // import { SubmitHandler, useForm } from "react-hook-form";
 import DesktopPages from "../Components/Desktop-pages";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { setPage } from "../store/PageNum";
+import { useDispatch } from "react-redux/es/exports";
 
 // interface Type {
 //   name: string;
@@ -16,6 +19,13 @@ export default function PersonalInfo() {
   // const onSubmit: SubmitHandler<Type> = (data) => {
   //   console.log(data);
   // };
+  const dispatch = useDispatch();
+  const page = useSelector((store: any) => store.page.Number);
+  const nextHandler = () => {
+    dispatch(setPage(2));
+  };
+
+  console.log(page);
   return (
     <>
       <Section>
@@ -52,7 +62,9 @@ export default function PersonalInfo() {
                   />
                   <NextDivDesktop>
                     <Link to="/plan">
-                      <NextButtonDesktop>Next Step</NextButtonDesktop>
+                      <NextButtonDesktop onClick={nextHandler}>
+                        Next Step
+                      </NextButtonDesktop>
                     </Link>
                   </NextDivDesktop>
                 </Form>
@@ -61,7 +73,9 @@ export default function PersonalInfo() {
           </Main>
           <NextDiv>
             <Link to="/plan">
-              <NextButton type="submit">Next Step</NextButton>
+              <NextButton type="submit" onClick={nextHandler}>
+                Next Step
+              </NextButton>
             </Link>
           </NextDiv>
         </SectionBack>

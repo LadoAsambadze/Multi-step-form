@@ -1,8 +1,11 @@
 import { styled } from "styled-components";
 import DesktopPages from "../Components/Desktop-pages";
 import Mobile from "../Components/Mobile-pages";
+import { useSelector } from "react-redux/es/exports";
 
 export default function Finish() {
+  const page = useSelector((store: any) => store.page.Number);
+  console.log(page);
   return (
     <>
       <Section>
