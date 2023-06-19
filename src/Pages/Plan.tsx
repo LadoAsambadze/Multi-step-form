@@ -4,16 +4,21 @@ import Mobile from "../Components/Mobile-pages";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { setPage } from "../store/PageNum";
+import { setActive } from "../store/Active";
+
 export default function Plan() {
-  const page = useSelector((store: any) => store.page.Number);
+  const active = useSelector((store: any) => store.active.Boolean);
 
   const dispatch = useDispatch();
-
   const nextHandler = () => {
     dispatch(setPage(3));
   };
-
-  console.log(page);
+  const backHandler = () => {
+    dispatch(setPage(1));
+  };
+  const activeHandler = () => {
+    dispatch(setActive(!active));
+  };
 
   return (
     <>
@@ -35,32 +40,39 @@ export default function Plan() {
                     <Icon src="icon-arcade.svg" />
                     <ModeTextDiv>
                       <ModeHeader>Arcade</ModeHeader>
-                      <Price>$9/mo</Price>
+                      <Price>{!active ? "$9/mo" : "$90/year"}</Price>
                     </ModeTextDiv>
                   </ModeDiv>
                   <ModeDiv>
                     <Icon src="icon-advanced.svg" />
                     <ModeTextDiv>
                       <ModeHeader>Advanced</ModeHeader>
-                      <Price>$12/mo</Price>
+                      <Price>{!active ? "$12/mo" : "$120/year"}</Price>
                     </ModeTextDiv>
                   </ModeDiv>
                   <ModeDiv>
                     <Icon src="icon-pro.svg" />
                     <ModeTextDiv>
                       <ModeHeader>Pro</ModeHeader>
-                      <Price>$15/mo</Price>
+                      <Price>{!active ? "$15/mo" : "$150/year"}</Price>
                     </ModeTextDiv>
                   </ModeDiv>
                 </Sector>
                 <ButtonDiv>
                   <Month>Monthly</Month>
-                  <Button>
-                    <Circle></Circle>
+                  <Button
+                    style={{
+                      justifyContent: active ? "flex-end" : "flex-start",
+                    }}
+                  >
+                    <Circle onClick={activeHandler}></Circle>
                   </Button>
                   <Year>Yearly</Year>
                 </ButtonDiv>
                 <NextDivDesktop>
+                  <Link to="/" style={{ textDecoration: "none" }}>
+                    <Back onClick={backHandler}>Go Back</Back>
+                  </Link>
                   <Link to="/addons">
                     <NextButtonDesktop onClick={nextHandler}>
                       Next Step
@@ -71,6 +83,9 @@ export default function Plan() {
             </div>
           </Main>
           <NextDiv>
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <Back onClick={backHandler}>Go Back</Back>
+            </Link>
             <Link to="/addons">
               <NextButton onClick={nextHandler} type="submit">
                 Next Step
@@ -237,7 +252,6 @@ const ButtonDiv = styled.div`
   border-radius: 8px;
   width: 100%;
   padding: 14px 56px 14px 56px;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -253,7 +267,6 @@ const Button = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
   padding: 4px;
   background: #022959;
   border-radius: 10px;
@@ -280,9 +293,10 @@ const Year = styled.span`
 const NextDiv = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
-  padding: 16px 16px 16px 0px;
+  padding: 16px 16px 16px 16px;
   @media (min-width: 1400px) {
     display: none;
   }
@@ -304,7 +318,8 @@ const NextDivDesktop = styled.div`
   @media (min-width: 1400px) {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     background-color: white;
     margin-top: 105px;
   }
@@ -321,5 +336,13 @@ const NextButtonDesktop = styled.button`
     padding: 12px 16px 12px 16px;
     border: none;
     display: block;
+    text-decoration: none;
   }
+`;
+
+const Back = styled.div`
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 18px;
+  color: #9699aa;
 `;

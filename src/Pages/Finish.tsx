@@ -1,11 +1,19 @@
 import { styled } from "styled-components";
 import DesktopPages from "../Components/Desktop-pages";
 import Mobile from "../Components/Mobile-pages";
-import { useSelector } from "react-redux/es/exports";
+
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux/es/exports";
+import { setPage } from "../store/PageNum";
 
 export default function Finish() {
-  const page = useSelector((store: any) => store.page.Number);
-  console.log(page);
+  
+
+  const dispatch = useDispatch();
+
+  const backHandler = () => {
+    dispatch(setPage(3));
+  };
   return (
     <>
       <Section>
@@ -43,6 +51,9 @@ export default function Finish() {
                     <Dollar>$120/yr</Dollar>
                   </FinalDiv>
                   <NextDivDesktop>
+                    <Link to="/addons" style={{ textDecoration: "none" }}>
+                      <Back onClick={backHandler}>Go Back</Back>
+                    </Link>
                     <NextButtonDesktop>Confirm</NextButtonDesktop>
                   </NextDivDesktop>
                 </Form>
@@ -50,6 +61,9 @@ export default function Finish() {
             </div>
           </Main>
           <NextDiv>
+            <Link to="/addons" style={{ textDecoration: "none" }}>
+              <Back onClick={backHandler}>Go Back</Back>
+            </Link>
             <NextButton type="submit">Confirm</NextButton>
           </NextDiv>
         </SectionBack>
@@ -148,9 +162,10 @@ const Form = styled.form`
 const NextDiv = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
-  padding: 16px 16px 16px 0px;
+  padding: 25px 16px 16px 16px;
   @media (min-width: 1400px) {
     display: none;
   }
@@ -240,7 +255,8 @@ const NextDivDesktop = styled.div`
   @media (min-width: 1400px) {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     background-color: white;
     margin-top: 140px;
   }
@@ -258,4 +274,10 @@ const NextButtonDesktop = styled.button`
     border: none;
     display: block;
   }
+`;
+const Back = styled.div`
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 18px;
+  color: #9699aa;
 `;

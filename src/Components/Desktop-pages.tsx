@@ -1,32 +1,63 @@
 import { styled } from "styled-components";
+import { useSelector } from "react-redux/es/exports";
 
 export default function DesktopPages() {
+  const page = useSelector((store: any) => store.page.Number);
+
   return (
     <>
       <DesktopNum>
         <StepNumDiv>
-          <NumCircle>1</NumCircle>
+          <NumCircle
+            style={{
+              background: page === 1 ? "#bee2fd" : "none",
+              color: page === 1 ? "#022959" : "white",
+            }}
+          >
+            1
+          </NumCircle>
           <NumTextDiv>
             <Step>Step 1</Step>
             <Description>YOUR INFO</Description>
           </NumTextDiv>
         </StepNumDiv>
         <StepNumDiv>
-          <NumCircle>2</NumCircle>
+          <NumCircle
+            style={{
+              background: page === 2 ? "#bee2fd" : "none",
+              color: page === 2 ? "#022959" : "white",
+            }}
+          >
+            2
+          </NumCircle>
           <NumTextDiv>
             <Step>Step 2</Step>
             <Description>SELECT PLAN</Description>
           </NumTextDiv>
         </StepNumDiv>
         <StepNumDiv>
-          <NumCircle>3</NumCircle>
+          <NumCircle
+            style={{
+              background: page === 3 ? "#bee2fd" : "none",
+              color: page === 3 ? "#022959" : "white",
+            }}
+          >
+            3
+          </NumCircle>
           <NumTextDiv>
             <Step>Step 3</Step>
             <Description>ADD-ONS</Description>
           </NumTextDiv>
         </StepNumDiv>
         <StepNumDiv>
-          <NumCircle>4</NumCircle>
+          <NumCircle
+            style={{
+              background: page === 4 ? "#bee2fd" : "none",
+              color: page === 4 ? "#022959" : "white",
+            }}
+          >
+            4
+          </NumCircle>
           <NumTextDiv>
             <Step>Step 4</Step>
             <Description>YOUR INFO</Description>
@@ -62,8 +93,6 @@ const NumCircle = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 100%;
-  background: #bee2fd;
-  color: #022959;
   font-weight: 700;
   font-size: 14px;
   line-height: 16px;

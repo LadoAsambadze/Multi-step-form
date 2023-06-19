@@ -120,7 +120,7 @@ const Main = styled.div`
   background-color: #eff5ff;
   padding-left: 16px;
   padding-right: 16px;
-  padding-bottom: 120px;
+  padding-bottom: 135px;
   @media (min-width: 1400px) {
     background: none;
     padding: 0px 85px 0px 100px;

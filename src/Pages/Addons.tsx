@@ -6,10 +6,14 @@ import { useDispatch, useSelector } from "react-redux/es/exports";
 import { setPage } from "../store/PageNum";
 export default function Addons() {
   const page = useSelector((store: any) => store.page.Number);
+  const active = useSelector((store: any) => store.active.Boolean);
   const dispatch = useDispatch();
 
   const nextHandler = () => {
     dispatch(setPage(4));
+  };
+  const backHandler = () => {
+    dispatch(setPage(2));
   };
   console.log(page);
   return (
@@ -35,7 +39,7 @@ export default function Addons() {
                         <TextHeader>Online service</TextHeader>
                         <TextP>Access to multiplayer games</TextP>
                       </ChooseTextDiv>
-                      <Dollar>+$1/mo</Dollar>
+                      <Dollar>{!active ? "+$1/mo" : "+$10/yr"}</Dollar>
                     </ChooseDiv>
                   </AddonDiv>
                   <AddonDiv>
@@ -47,7 +51,7 @@ export default function Addons() {
                         <TextHeader>Larger storage</TextHeader>
                         <TextP>Extra 1TB of cloud save</TextP>
                       </ChooseTextDiv>
-                      <Dollar>+$2/mo</Dollar>
+                      <Dollar>{!active ? "+$2/mo" : "+$20/yr"}</Dollar>
                     </ChooseDiv>
                   </AddonDiv>
                   <AddonDiv>
@@ -59,10 +63,13 @@ export default function Addons() {
                         <TextHeader>Customizable profile</TextHeader>
                         <TextP>Custom theme on your profile</TextP>
                       </ChooseTextDiv>
-                      <Dollar>+$2/mo</Dollar>
+                      <Dollar>{!active ? "+$2/mo" : "+$20/yr"}</Dollar>
                     </ChooseDiv>
                   </AddonDiv>
                   <NextDivDesktop>
+                    <Link to="/plan" style={{ textDecoration: "none" }}>
+                      <Back onClick={backHandler}>Go Back</Back>
+                    </Link>
                     <Link to="/finish">
                       <NextButtonDesktop onClick={nextHandler}>
                         Next Step
@@ -74,6 +81,9 @@ export default function Addons() {
             </div>
           </Main>
           <NextDiv>
+            <Link to="/plan" style={{ textDecoration: "none" }}>
+              <Back onClick={backHandler}>Go Back</Back>
+            </Link>
             <Link to="/finish">
               <NextButton onClick={nextHandler} type="submit">
                 Next Step
@@ -177,9 +187,10 @@ const Form = styled.form`
 const NextDiv = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
-  padding: 16px 16px 16px 0px;
+  padding: 16px 16px 16px 16px;
   @media (min-width: 1400px) {
     display: none;
   }
@@ -254,7 +265,8 @@ const NextDivDesktop = styled.div`
   @media (min-width: 1400px) {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     background-color: white;
     margin-top: 95px;
   }
@@ -272,4 +284,11 @@ const NextButtonDesktop = styled.button`
     border: none;
     display: block;
   }
+`;
+
+const Back = styled.div`
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 18px;
+  color: #9699aa;
 `;
