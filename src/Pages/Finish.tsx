@@ -5,10 +5,9 @@ import Mobile from "../Components/Mobile-pages";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux/es/exports";
 import { setPage } from "../store/PageNum";
+import Thank from "../Components/Thank";
 
 export default function Finish() {
-  
-
   const dispatch = useDispatch();
 
   const backHandler = () => {
@@ -21,6 +20,8 @@ export default function Finish() {
           <DesktopPages />
           <Main>
             <Mobile />
+            <Thank />
+
             <div>
               <Info>
                 <Header>Finishing up</Header>
