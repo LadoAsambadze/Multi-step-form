@@ -19,7 +19,8 @@ export default function Plan() {
   const activeHandler = () => {
     dispatch(setActive(!active));
   };
-
+  const base = useSelector((store: any) => store.base.Object);
+  console.log(base);
   return (
     <>
       <Section>

@@ -1,31 +1,39 @@
 import { styled } from "styled-components";
 import Mobile from "../Components/Mobile-pages";
-// import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import DesktopPages from "../Components/Desktop-pages";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { setPage } from "../store/PageNum";
 import { useDispatch } from "react-redux/es/exports";
+import { setBase } from "../store/DataBase";
 
-// interface Type {
-//   name: string;
-//   email: string;
-//   number: number;
-// }
+interface Type {
+  name: string;
+  email: string;
+  number: number;
+}
 
 export default function PersonalInfo() {
-  // const { register, handleSubmit } = useForm<Type>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Type>();
 
-  // const onSubmit: SubmitHandler<Type> = (data) => {
-  //   console.log(data);
-  // };
   const dispatch = useDispatch();
-  const page = useSelector((store: any) => store.page.Number);
+  const base = useSelector((store: any) => store.base.Object);
+
+  const onSubmit: SubmitHandler<Type> = (data) => {
+    dispatch(setBase(data));
+    localStorage.setItem("base", JSON.stringify(base));
+  };
+  console.log(base);
+
   const nextHandler = () => {
     dispatch(setPage(2));
   };
 
-  console.log(page);
   return (
     <>
       <Section>
@@ -41,31 +49,46 @@ export default function PersonalInfo() {
                   Please provide your name, email address, and phone number.
                 </Instruction>
 
-                <Form>
-                  <Label style={{ marginTop: 0 }}>Name</Label>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Label style={{ marginTop: 0 }}>
+                    <LabelP>Phone Number</LabelP>
+                    <Error>This field is required</Error>
+                  </Label>
                   <Input
                     placeholder="e.g. Stephen King"
                     type="string"
-                    // {...register("name")}
+                    {...register("name", { required: true })}
                   />
-                  <Label>Email Address</Label>
+                  <Label>
+                    <LabelP>Email Adress</LabelP>
+                    <Error>This field is required</Error>
+                  </Label>
                   <Input
                     placeholder="e.g. stephenking@lorem.com"
                     type="email"
-                    // {...register("email")}
+                    {...register("email", { required: true })}
                   />
-                  <Label>Phone Number</Label>
+                  <Label>
+                    <LabelP>Phone Number</LabelP>
+                    <Error>This field is required</Error>
+                  </Label>
                   <Input
                     placeholder="e.g. +1 234 567 890"
                     type="number"
-                    // {...register("number")}
+                    {...register("number", { required: true })}
                   />
                   <NextDivDesktop>
-                    <Link to="/plan">
-                      <NextButtonDesktop onClick={nextHandler}>
-                        Next Step
-                      </NextButtonDesktop>
-                    </Link>
+                    {/* <Link to="/plan"> */}
+                    <NextButtonDesktop
+                      onClick={() => {
+                        nextHandler();
+                        handleSubmit(onSubmit);
+                      }}
+                      type="submit"
+                    >
+                      Next Step
+                    </NextButtonDesktop>
+                    {/* </Link> */}
                   </NextDivDesktop>
                 </Form>
               </Info>
@@ -176,6 +199,10 @@ const Label = styled.label`
   line-height: 14px;
   color: #022959;
   margin-top: 16px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   @media (min-width: 1400px) {
     font-size: 14px;
     line-height: 16px;
@@ -254,4 +281,18 @@ const NextButtonDesktop = styled.button`
     border: none;
     display: block;
   }
+`;
+
+const Error = styled.span`
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: right;
+  color: #ee374a;
+`;
+const LabelP = styled.span`
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #022959;
 `;
