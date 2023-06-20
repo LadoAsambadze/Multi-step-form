@@ -76,7 +76,7 @@ export default function Plan() {
                   <ModeDiv
                     style={{
                       border:
-                        mode === "advenced"
+                        mode === "advanced"
                           ? "1px solid #483eff"
                           : "1px solid #D6D9E6",
                     }}
