@@ -1,13 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface BasePayload {
+  property: string;
+  value: string;
+}
+const base = {
+  name: "",
+  email: "",
+  number: "",
+  mode: "",
+  price: "",
+};
 const dataBase = createSlice({
   name: "base",
-  initialState: {
-    Object: { name: "", email: "", phone: "" },
-  },
+  initialState: base,
   reducers: {
-    setBase: (state, action) => {
-      state.Object = action.payload;
+    setBase: (state, action: PayloadAction<BasePayload>) => {
+      state[action.payload.property] = action.payload.value;
     },
   },
 });

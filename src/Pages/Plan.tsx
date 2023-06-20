@@ -5,11 +5,21 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { setPage } from "../store/PageNum";
 import { setActive } from "../store/Active";
+import { useState } from "react";
+import { setBase } from "../store/DataBase";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 export default function Plan() {
+  const base = useSelector((store: any) => store.base);
   const active = useSelector((store: any) => store.active.Boolean);
-
   const dispatch = useDispatch();
+  const [mode, setMode] = useState("arcade");
+  const [price, setPrice] = useState("9motth");
+  console.log(price);
+  const advRef = useRef(null);
+  const arcadeRef = useRef(null);
+  const proRef = useRef(null);
   const nextHandler = () => {
     dispatch(setPage(3));
   };
@@ -19,7 +29,12 @@ export default function Plan() {
   const activeHandler = () => {
     dispatch(setActive(!active));
   };
-  const base = useSelector((store: any) => store.base.Object);
+  useEffect(() => {
+    localStorage.setItem("base", JSON.stringify(base));
+  }, [base, mode]);
+  useEffect(() => {
+    dispatch(setBase({ property: "price", value: price }));
+  }, [active, price]);
   console.log(base);
   return (
     <>
@@ -37,25 +52,70 @@ export default function Plan() {
               </Info>
               <Form>
                 <Sector>
-                  <ModeDiv>
+                  <ModeDiv
+                    style={{
+                      border:
+                        mode === "arcade"
+                          ? "1px solid #483eff"
+                          : "1px solid #D6D9E6",
+                    }}
+                    onClick={() => {
+                      setMode("arcade");
+                      dispatch(setBase({ property: "mode", value: "arcade" }));
+                      setPrice(arcadeRef.current.textContent);
+                    }}
+                  >
                     <Icon src="icon-arcade.svg" />
                     <ModeTextDiv>
                       <ModeHeader>Arcade</ModeHeader>
-                      <Price>{!active ? "$9/mo" : "$90/year"}</Price>
+                      <Price ref={arcadeRef}>
+                        {!active ? "$9/mo" : "$90/year"}
+                      </Price>
                     </ModeTextDiv>
                   </ModeDiv>
-                  <ModeDiv>
+                  <ModeDiv
+                    style={{
+                      border:
+                        mode === "advenced"
+                          ? "1px solid #483eff"
+                          : "1px solid #D6D9E6",
+                    }}
+                    onClick={() => {
+                      setMode("advanced");
+                      dispatch(
+                        setBase({ property: "mode", value: "advenced" })
+                      );
+                      setPrice(advRef.current.textContent);
+                    }}
+                  >
                     <Icon src="icon-advanced.svg" />
                     <ModeTextDiv>
                       <ModeHeader>Advanced</ModeHeader>
-                      <Price>{!active ? "$12/mo" : "$120/year"}</Price>
+                      <Price ref={advRef}>
+                        {!active ? "$12/mo" : "$120/year"}
+                      </Price>
                     </ModeTextDiv>
                   </ModeDiv>
-                  <ModeDiv>
+                  <ModeDiv
+                    style={{
+                      border:
+                        mode === "pro"
+                          ? "1px solid #483eff"
+                          : "1px solid #D6D9E6",
+                    }}
+                    onClick={() => {
+                      setMode("pro");
+                      dispatch(setBase({ property: "mode", value: "pro" }));
+
+                      setPrice(proRef.current.textContent);
+                    }}
+                  >
                     <Icon src="icon-pro.svg" />
                     <ModeTextDiv>
                       <ModeHeader>Pro</ModeHeader>
-                      <Price>{!active ? "$15/mo" : "$150/year"}</Price>
+                      <Price ref={proRef}>
+                        {!active ? "$15/mo" : "$150/year"}
+                      </Price>
                     </ModeTextDiv>
                   </ModeDiv>
                 </Sector>
@@ -208,9 +268,9 @@ const ModeDiv = styled.div`
   width: 100%;
   padding: 17px 152px 20px 16px;
   background: #f8f9ff;
-  border: 1px solid #483eff;
   border-radius: 8px;
   margin-bottom: 12px;
+  cursor: pointer;
 
   @media (min-width: 1400px) {
     padding: 20px 50px 20px 16px;

@@ -1,13 +1,14 @@
 import { styled } from "styled-components";
 import Mobile from "../Components/Mobile-pages";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import DesktopPages from "../Components/Desktop-pages";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { setPage } from "../store/PageNum";
 import { useDispatch } from "react-redux/es/exports";
 import { setBase } from "../store/DataBase";
-
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 interface Type {
   name: string;
   email: string;
@@ -17,22 +18,22 @@ interface Type {
 export default function PersonalInfo() {
   const {
     register,
-    handleSubmit,
     formState: { errors },
   } = useForm<Type>();
 
   const dispatch = useDispatch();
-  const base = useSelector((store: any) => store.base.Object);
-
-  const onSubmit: SubmitHandler<Type> = (data) => {
-    dispatch(setBase(data));
-    localStorage.setItem("base", JSON.stringify(base));
-  };
-  console.log(base);
+  const base = useSelector((store: any) => store.base);
+  const navigate = useNavigate();
 
   const nextHandler = () => {
     dispatch(setPage(2));
+    navigate("/plan");
   };
+  useEffect(() => {
+    localStorage.setItem("base", JSON.stringify(base));
+  }, [base]);
+
+  console.log(base);
 
   return (
     <>
@@ -49,7 +50,7 @@ export default function PersonalInfo() {
                   Please provide your name, email address, and phone number.
                 </Instruction>
 
-                <Form onSubmit={handleSubmit(onSubmit)}>
+                <Form>
                   <Label style={{ marginTop: 0 }}>
                     <LabelP>Phone Number</LabelP>
                     <Error>This field is required</Error>
@@ -57,7 +58,14 @@ export default function PersonalInfo() {
                   <Input
                     placeholder="e.g. Stephen King"
                     type="string"
-                    {...register("name", { required: true })}
+                    {...(register("name", { required: true }),
+                    {
+                      onChange: (e) => {
+                        dispatch(
+                          setBase({ property: "name", value: e.target.value })
+                        );
+                      },
+                    })}
                   />
                   <Label>
                     <LabelP>Email Adress</LabelP>
@@ -66,7 +74,14 @@ export default function PersonalInfo() {
                   <Input
                     placeholder="e.g. stephenking@lorem.com"
                     type="email"
-                    {...register("email", { required: true })}
+                    {...(register("email", { required: true }),
+                    {
+                      onChange: (e) => {
+                        dispatch(
+                          setBase({ property: "email", value: e.target.value })
+                        );
+                      },
+                    })}
                   />
                   <Label>
                     <LabelP>Phone Number</LabelP>
@@ -75,20 +90,23 @@ export default function PersonalInfo() {
                   <Input
                     placeholder="e.g. +1 234 567 890"
                     type="number"
-                    {...register("number", { required: true })}
+                    {...(register("number", { required: true }),
+                    {
+                      onChange: (e) => {
+                        dispatch(
+                          setBase({ property: "number", value: e.target.value })
+                        );
+                      },
+                    })}
                   />
                   <NextDivDesktop>
-                    {/* <Link to="/plan"> */}
                     <NextButtonDesktop
                       onClick={() => {
                         nextHandler();
-                        handleSubmit(onSubmit);
                       }}
-                      type="submit"
                     >
                       Next Step
                     </NextButtonDesktop>
-                    {/* </Link> */}
                   </NextDivDesktop>
                 </Form>
               </Info>
