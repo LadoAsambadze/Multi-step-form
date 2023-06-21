@@ -14,7 +14,7 @@ export default function Plan() {
   const base = useSelector((store: any) => store.base);
   const active = useSelector((store: any) => store.active.Boolean);
   const dispatch = useDispatch();
-  const [mode, setMode] = useState("arcade");
+  const [mode, setMode] = useState<String | null>(null);
   const [price, setPrice] = useState("");
   const advRef = useRef<HTMLSpanElement>(null);
   const arcadeRef = useRef<HTMLSpanElement>(null);
@@ -53,6 +53,8 @@ export default function Plan() {
   useEffect(() => {
     localStorage.setItem("base", JSON.stringify(base));
   }, [base, mode]);
+
+  console.log(mode);
 
   return (
     <>
@@ -149,14 +151,21 @@ export default function Plan() {
                       justifyContent: active ? "flex-end" : "flex-start",
                       background: active ? "#022959" : "gray",
                     }}
+                    onClick={activeHandler}
                   >
-                    <Circle onClick={activeHandler}></Circle>
+                    <Circle></Circle>
                   </Button>
                   <Year>Yearly</Year>
                 </ButtonDiv>
                 <NextDivDesktop>
                   <Back onClick={backHandler}>Go Back</Back>
-                  <NextButtonDesktop onClick={nextHandler}>
+                  <NextButtonDesktop
+                    onClick={() => {
+                      if (mode !== null) {
+                        nextHandler();
+                      }
+                    }}
+                  >
                     Next Step
                   </NextButtonDesktop>
                 </NextDivDesktop>
@@ -165,7 +174,13 @@ export default function Plan() {
           </Main>
           <NextDiv>
             <Back onClick={backHandler}>Go Back</Back>
-            <NextButton onClick={nextHandler} type="submit">
+            <NextButton
+              onClick={() => {
+                if (mode !== null) {
+                  nextHandler();
+                }
+              }}
+            >
               Next Step
             </NextButton>
           </NextDiv>
@@ -350,6 +365,7 @@ const Button = styled.div`
   width: 38px;
   height: 20px;
   margin-left: 24px;
+  cursor: pointer;
 `;
 const Circle = styled.div`
   background: white;
@@ -374,6 +390,7 @@ const NextDiv = styled.div`
   align-items: center;
   background-color: white;
   padding: 16px 16px 16px 16px;
+  cursor: pointer;
   @media (min-width: 1400px) {
     display: none;
   }
@@ -403,6 +420,7 @@ const NextDivDesktop = styled.div`
 `;
 const NextButtonDesktop = styled.button`
   display: none;
+  cursor: pointer;
   @media (min-width: 1400px) {
     background: #022959;
     border-radius: 4px;
@@ -422,4 +440,5 @@ const Back = styled.div`
   font-size: 16px;
   line-height: 18px;
   color: #9699aa;
+  cursor: pointer;
 `;

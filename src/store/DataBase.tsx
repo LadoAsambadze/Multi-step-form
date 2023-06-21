@@ -1,16 +1,35 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface BaseType {
+  [key: string]: string | number | null;
+  name: string;
+  email: string;
+  number: number;
+  mode: string;
+  price: number;
+  online: string | null;
+  local: string | null;
+  profile: string | null;
+}
+
+type door = keyof BaseType;
+
 interface BasePayload {
-  property: string;
+  property: door;
   value: string;
 }
-const base = {
+
+const base: BaseType = {
   name: "",
   email: "",
-  number: "",
+  number: 0,
   mode: "",
-  price: "",
+  price: 0,
+  online: null,
+  local: null,
+  profile: null,
 };
+
 const dataBase = createSlice({
   name: "base",
   initialState: base,

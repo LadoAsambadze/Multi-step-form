@@ -5,12 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { setPage } from "../store/PageNum";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { useState } from "react";
+import { useRef } from "react";
+import { useEffect } from "react";
+import { setBase } from "../store/DataBase";
 export default function Addons() {
   const active = useSelector((store: any) => store.active.Boolean);
   const base = useSelector((store: any) => store.base);
-  const [item, setItem] = useState<Number | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [checkedValues, setCheckedValues] = useState([false, false, false]);
 
   const nextHandler = () => {
     dispatch(setPage(4));
@@ -21,14 +24,48 @@ export default function Addons() {
     navigate("/plan");
   };
 
-  const [checkedValues, setCheckedValues] = useState([false, false, false]);
-
   const handleCheckboxClick = (index: number) => () => {
     const newCheckedValues = [...checkedValues];
     newCheckedValues[index] = !newCheckedValues[index];
     setCheckedValues(newCheckedValues);
   };
 
+  const serviceRef = useRef<HTMLSpanElement | null>(null);
+  const storageRef = useRef<HTMLSpanElement | null>(null);
+  const profileRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    dispatch(
+      setBase({
+        property: "Online Service",
+        value:
+          checkedValues[0] === true
+            ? serviceRef?.current?.textContent ?? ""
+            : "",
+      })
+    );
+    dispatch(
+      setBase({
+        property: "Local Storage",
+        value:
+          checkedValues[1] === true
+            ? storageRef?.current?.textContent ?? ""
+            : "",
+      })
+    );
+    dispatch(
+      setBase({
+        property: "Customizable Profile",
+        value:
+          checkedValues[2] === true
+            ? profileRef?.current?.textContent ?? ""
+            : "",
+      })
+    );
+  }, [checkedValues]);
+
+  console.log(base);
+  console.log(checkedValues);
   return (
     <>
       <Section>
@@ -66,7 +103,9 @@ export default function Addons() {
                         <TextHeader>Online service</TextHeader>
                         <TextP>Access to multiplayer games</TextP>
                       </ChooseTextDiv>
-                      <Dollar>{!active ? "+$1/mo" : "+$10/yr"}</Dollar>
+                      <Dollar ref={serviceRef}>
+                        {!active ? "+$1/mo" : "+$10/yr"}
+                      </Dollar>
                     </ChooseDiv>
                   </AddonDiv>
                   <AddonDiv>
@@ -92,7 +131,9 @@ export default function Addons() {
                         <TextHeader>Larger storage</TextHeader>
                         <TextP>Extra 1TB of cloud save</TextP>
                       </ChooseTextDiv>
-                      <Dollar>{!active ? "+$2/mo" : "+$20/yr"}</Dollar>
+                      <Dollar ref={storageRef}>
+                        {!active ? "+$2/mo" : "+$20/yr"}
+                      </Dollar>
                     </ChooseDiv>
                   </AddonDiv>
                   <AddonDiv>
@@ -118,7 +159,9 @@ export default function Addons() {
                         <TextHeader>Customizable profile</TextHeader>
                         <TextP>Custom theme on your profile</TextP>
                       </ChooseTextDiv>
-                      <Dollar>{!active ? "+$2/mo" : "+$20/yr"}</Dollar>
+                      <Dollar ref={profileRef}>
+                        {!active ? "+$2/mo" : "+$20/yr"}
+                      </Dollar>
                     </ChooseDiv>
                   </AddonDiv>
                   <NextDivDesktop>
@@ -239,6 +282,7 @@ const NextDiv = styled.div`
   align-items: center;
   background-color: white;
   padding: 16px 16px 16px 16px;
+  cursor: pointer;
   @media (min-width: 1400px) {
     display: none;
   }
@@ -260,6 +304,7 @@ const AddonDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 22px;
+  cursor: pointer;
 `;
 
 const ChooseDiv = styled.div`
@@ -326,6 +371,7 @@ const NextDivDesktop = styled.div`
 `;
 const NextButtonDesktop = styled.button`
   display: none;
+  cursor: pointer;
   @media (min-width: 1400px) {
     background: #022959;
     border-radius: 4px;
@@ -344,4 +390,5 @@ const Back = styled.div`
   font-size: 16px;
   line-height: 18px;
   color: #9699aa;
+  cursor: pointer;
 `;

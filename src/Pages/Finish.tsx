@@ -1,18 +1,37 @@
 import { styled } from "styled-components";
 import DesktopPages from "../Components/Desktop-pages";
 import Mobile from "../Components/Mobile-pages";
-
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux/es/exports";
+import { useDispatch, useSelector } from "react-redux/es/exports";
 import { setPage } from "../store/PageNum";
 import Thank from "../Components/Thank";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Finish() {
   const dispatch = useDispatch();
-
+  const base = useSelector((store: any) => store.base);
+  const active = useSelector((store: any) => store.active.boolean);
+  const navigate = useNavigate();
+  const options = ["Online Service", "Local Storage", "Customizable Profile"];
+  const [thank, setThank] = useState<boolean>(false);
   const backHandler = () => {
     dispatch(setPage(3));
+    navigate("/addons");
   };
+  const keys = [
+    "price",
+    "Online Service",
+    "Local Storage",
+    "Customizable Profile",
+  ];
+  const sum = keys.reduce((acc, key) => {
+    if (base[key]) {
+      const num = Number(base[key].replace(/[^0-9.]/g, ""));
+      return acc + num;
+    }
+    return acc;
+  }, 0);
+
   return (
     <>
       <Section>
@@ -20,9 +39,9 @@ export default function Finish() {
           <DesktopPages />
           <Main>
             <Mobile />
-            <Thank />
+            <Thank thank={thank} />
 
-            <div>
+            <div style={{ display: thank ? "none" : "block" }}>
               <Info>
                 <Header>Finishing up</Header>
                 <Instruction>
@@ -32,40 +51,64 @@ export default function Finish() {
                   <Single>
                     <MainTextDiv>
                       <DoubleTextDiv>
-                        <TextHeader>Arcade (Yearly)</TextHeader>
-                        <TextP>Change</TextP>
+                        <TextHeader>
+                          {base.mode}
+                          {active ? "(Yearly)" : "(Monthly)"}
+                        </TextHeader>
+                        <TextP
+                          onClick={() => {
+                            navigate("/plan");
+                          }}
+                        >
+                          Change
+                        </TextP>
                       </DoubleTextDiv>
-                      <Dollar>$90/yr</Dollar>
+                      <Dollar>{base.price}</Dollar>
                     </MainTextDiv>
                     <Line></Line>
-                    <MainTextDiv>
-                      <TextS>Online service</TextS>
-                      <Dollar>+$10/yr</Dollar>
-                    </MainTextDiv>
-                    <MainTextDiv>
-                      <TextS>Larger storage</TextS>
-                      <Dollar>+$20/yr</Dollar>
-                    </MainTextDiv>
+
+                    {options
+                      .filter((option) => base[option])
+                      .map((option) => (
+                        <MainTextDiv key={option}>
+                          <TextS>{option}</TextS>
+                          <Dollar>{base[option]}</Dollar>
+                        </MainTextDiv>
+                      ))}
                   </Single>
                   <FinalDiv>
-                    <TextS>Total (per year)</TextS>
-                    <Dollar>$120/yr</Dollar>
+                    <TextS>
+                      {active ? "Total per (Month)" : "Total Per (year)"}
+                    </TextS>
+                    <Dollar>
+                      ${sum}
+                      {active ? "/mo" : "/yr"}
+                    </Dollar>
                   </FinalDiv>
                   <NextDivDesktop>
-                    <Link to="/addons" style={{ textDecoration: "none" }}>
-                      <Back onClick={backHandler}>Go Back</Back>
-                    </Link>
-                    <NextButtonDesktop>Confirm</NextButtonDesktop>
+                    <Back onClick={backHandler}>Go Back</Back>
+                    <NextButtonDesktop
+                      onClick={() => {
+                        setThank(true);
+                      }}
+                      type="button"
+                    >
+                      Confirm
+                    </NextButtonDesktop>
                   </NextDivDesktop>
                 </Form>
               </Info>
             </div>
           </Main>
           <NextDiv>
-            <Link to="/addons" style={{ textDecoration: "none" }}>
-              <Back onClick={backHandler}>Go Back</Back>
-            </Link>
-            <NextButton type="submit">Confirm</NextButton>
+            <Back onClick={backHandler}>Go Back</Back>
+            <NextButton
+              onClick={() => {
+                setThank(true);
+              }}
+            >
+              Confirm
+            </NextButton>
           </NextDiv>
         </SectionBack>
       </Section>
@@ -167,6 +210,7 @@ const NextDiv = styled.div`
   align-items: center;
   background-color: white;
   padding: 25px 16px 16px 16px;
+  cursor: pointer;
   @media (min-width: 1400px) {
     display: none;
   }
@@ -216,9 +260,13 @@ const TextP = styled.span`
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  text-decoration-line: underline;
+
   color: #9699aa;
   margin-top: 3px;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 const Dollar = styled.div`
   font-weight: 700;
@@ -264,6 +312,7 @@ const NextDivDesktop = styled.div`
 `;
 const NextButtonDesktop = styled.button`
   display: none;
+  cursor: pointer;
   @media (min-width: 1400px) {
     background: #022959;
     border-radius: 4px;
@@ -281,4 +330,5 @@ const Back = styled.div`
   font-size: 16px;
   line-height: 18px;
   color: #9699aa;
+  cursor: pointer;
 `;

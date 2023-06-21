@@ -196,7 +196,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   @media (min-width: 1400px) {
-    margin-top: 0;
+    margin-top: 30px;
   }
 `;
 
@@ -248,6 +248,7 @@ const NextDiv = styled.div`
   justify-content: flex-end;
   background-color: white;
   padding: 16px 16px 16px 0px;
+  cursor: pointer;
   @media (min-width: 1400px) {
     display: none;
   }
@@ -277,6 +278,7 @@ const NextDivDesktop = styled.div`
 `;
 const NextButtonDesktop = styled.button`
   display: none;
+  cursor: pointer;
   @media (min-width: 1400px) {
     background: #022959;
     border-radius: 4px;

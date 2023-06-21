@@ -1,9 +1,10 @@
 import { styled } from "styled-components";
 
-export default function Thank() {
+export default function Thank(props: { thank: boolean }) {
+  const { thank } = props;
   return (
     <>
-      <ThankYou style={{ display: "none" }}>
+      <ThankYou style={{ display: thank ? "flex" : "none" }}>
         <img src="icon-thank-you.svg" alt="thank you icon" />
         <ThankHead>Thank You!</ThankHead>
         <ThankP>
