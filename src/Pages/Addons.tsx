@@ -1,21 +1,34 @@
 import { styled } from "styled-components";
 import DesktopPages from "../Components/Desktop-pages";
 import Mobile from "../Components/Mobile-pages";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux/es/exports";
+import { useNavigate } from "react-router-dom";
 import { setPage } from "../store/PageNum";
+import { useDispatch, useSelector } from "react-redux/es/exports";
+import { useState } from "react";
 export default function Addons() {
-  const page = useSelector((store: any) => store.page.Number);
   const active = useSelector((store: any) => store.active.Boolean);
+  const base = useSelector((store: any) => store.base);
+  const [item, setItem] = useState<Number | null>(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const nextHandler = () => {
     dispatch(setPage(4));
+    navigate("/finish");
   };
   const backHandler = () => {
     dispatch(setPage(2));
+    navigate("/plan");
   };
-  console.log(page);
+
+  const [checkedValues, setCheckedValues] = useState([false, false, false]);
+
+  const handleCheckboxClick = (index: number) => () => {
+    const newCheckedValues = [...checkedValues];
+    newCheckedValues[index] = !newCheckedValues[index];
+    setCheckedValues(newCheckedValues);
+  };
+
   return (
     <>
       <Section>
@@ -31,9 +44,23 @@ export default function Addons() {
                 </Instruction>
                 <Form>
                   <AddonDiv>
-                    <ChooseDiv>
-                      <CheckBox>
-                        <img src="icon-checkmark.svg" />
+                    <ChooseDiv
+                      style={{
+                        border: checkedValues[0]
+                          ? "1px solid #483eff"
+                          : "1px solid #D6D9E6",
+                      }}
+                      onClick={handleCheckboxClick(0)}
+                    >
+                      <CheckBox
+                        style={{
+                          background: checkedValues[0] ? "#483EFF" : "white",
+                          borderColor: checkedValues[0] ? "#D6D9E6" : "",
+                        }}
+                      >
+                        {checkedValues[0] ? (
+                          <img src="icon-checkmark.svg" />
+                        ) : null}
                       </CheckBox>
                       <ChooseTextDiv>
                         <TextHeader>Online service</TextHeader>
@@ -43,9 +70,23 @@ export default function Addons() {
                     </ChooseDiv>
                   </AddonDiv>
                   <AddonDiv>
-                    <ChooseDiv>
-                      <CheckBox>
-                        <img src="icon-checkmark.svg" />
+                    <ChooseDiv
+                      style={{
+                        border: checkedValues[1]
+                          ? "1px solid #483eff"
+                          : "1px solid #D6D9E6",
+                      }}
+                      onClick={handleCheckboxClick(1)}
+                    >
+                      <CheckBox
+                        style={{
+                          background: checkedValues[1] ? "#483EFF" : "white",
+                          borderColor: checkedValues[1] ? "#D6D9E6" : "",
+                        }}
+                      >
+                        {checkedValues[1] ? (
+                          <img src="icon-checkmark.svg" />
+                        ) : null}
                       </CheckBox>
                       <ChooseTextDiv>
                         <TextHeader>Larger storage</TextHeader>
@@ -55,9 +96,23 @@ export default function Addons() {
                     </ChooseDiv>
                   </AddonDiv>
                   <AddonDiv>
-                    <ChooseDiv>
-                      <CheckBox>
-                        <img src="icon-checkmark.svg" />
+                    <ChooseDiv
+                      style={{
+                        border: checkedValues[2]
+                          ? "1px solid #483eff"
+                          : "1px solid #D6D9E6",
+                      }}
+                      onClick={handleCheckboxClick(2)}
+                    >
+                      <CheckBox
+                        style={{
+                          background: checkedValues[2] ? "#483EFF" : "white",
+                          borderColor: checkedValues[2] ? "#D6D9E6" : "",
+                        }}
+                      >
+                        {checkedValues[2] ? (
+                          <img src="icon-checkmark.svg" />
+                        ) : null}
                       </CheckBox>
                       <ChooseTextDiv>
                         <TextHeader>Customizable profile</TextHeader>
@@ -67,28 +122,21 @@ export default function Addons() {
                     </ChooseDiv>
                   </AddonDiv>
                   <NextDivDesktop>
-                    <Link to="/plan" style={{ textDecoration: "none" }}>
-                      <Back onClick={backHandler}>Go Back</Back>
-                    </Link>
-                    <Link to="/finish">
-                      <NextButtonDesktop onClick={nextHandler}>
-                        Next Step
-                      </NextButtonDesktop>
-                    </Link>
+                    <Back onClick={backHandler}>Go Back</Back>
+
+                    <NextButtonDesktop onClick={nextHandler}>
+                      Next Step
+                    </NextButtonDesktop>
                   </NextDivDesktop>
                 </Form>
               </Info>
             </div>
           </Main>
           <NextDiv>
-            <Link to="/plan" style={{ textDecoration: "none" }}>
-              <Back onClick={backHandler}>Go Back</Back>
-            </Link>
-            <Link to="/finish">
-              <NextButton onClick={nextHandler} type="submit">
-                Next Step
-              </NextButton>
-            </Link>
+            <Back onClick={backHandler}>Go Back</Back>
+            <NextButton onClick={nextHandler} type="submit">
+              Next Step
+            </NextButton>
           </NextDiv>
         </SectionBack>
       </Section>
@@ -227,7 +275,12 @@ const ChooseDiv = styled.div`
 const CheckBox = styled.div`
   background: #483eff;
   border-radius: 4px;
-  padding: 5px 7px 5px 7px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d6d9e6;
 `;
 
 const ChooseTextDiv = styled.div`

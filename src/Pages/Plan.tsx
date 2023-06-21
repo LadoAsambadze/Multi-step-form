@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import DesktopPages from "../Components/Desktop-pages";
 import Mobile from "../Components/Mobile-pages";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { setPage } from "../store/PageNum";
 import { setActive } from "../store/Active";
@@ -16,26 +16,24 @@ export default function Plan() {
   const dispatch = useDispatch();
   const [mode, setMode] = useState("arcade");
   const [price, setPrice] = useState("");
-  console.log(price);
   const advRef = useRef<HTMLSpanElement>(null);
   const arcadeRef = useRef<HTMLSpanElement>(null);
   const proRef = useRef<HTMLSpanElement>(null);
-
   const navigate = useNavigate();
+
   const nextHandler = () => {
     dispatch(setPage(3));
     navigate("/addons");
   };
+
   const backHandler = () => {
     dispatch(setPage(1));
     navigate("/");
   };
+
   const activeHandler = () => {
     dispatch(setActive(!active));
   };
-  useEffect(() => {
-    localStorage.setItem("base", JSON.stringify(base));
-  }, [base, mode]);
 
   useEffect(() => {
     let newPrice: string | null = null;
@@ -52,7 +50,10 @@ export default function Plan() {
     dispatch(setBase({ property: "price", value: price }));
   }, [active, price]);
 
-  console.log(base);
+  useEffect(() => {
+    localStorage.setItem("base", JSON.stringify(base));
+  }, [base, mode]);
+
   return (
     <>
       <Section>
