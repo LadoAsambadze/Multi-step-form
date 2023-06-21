@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import Mobile from "../Components/Mobile-pages";
 import { useForm } from "react-hook-form";
 import DesktopPages from "../Components/Desktop-pages";
-import { Link } from "react-router-dom";
+
 import { useSelector } from "react-redux";
 import { setPage } from "../store/PageNum";
 import { useDispatch } from "react-redux/es/exports";
@@ -16,24 +16,19 @@ interface Type {
 }
 
 export default function PersonalInfo() {
-  const {
-    register,
-    formState: { errors },
-  } = useForm<Type>();
-
+  const { register } = useForm<Type>();
   const dispatch = useDispatch();
-  const base = useSelector((store: any) => store.base);
   const navigate = useNavigate();
+  const base = useSelector((store: any) => store.base);
+
+  useEffect(() => {
+    localStorage.setItem("base", JSON.stringify(base));
+  }, [base]);
 
   const nextHandler = () => {
     dispatch(setPage(2));
     navigate("/plan");
   };
-  useEffect(() => {
-    localStorage.setItem("base", JSON.stringify(base));
-  }, [base]);
-
-  console.log(base);
 
   return (
     <>
@@ -100,11 +95,7 @@ export default function PersonalInfo() {
                     })}
                   />
                   <NextDivDesktop>
-                    <NextButtonDesktop
-                      onClick={() => {
-                        nextHandler();
-                      }}
-                    >
+                    <NextButtonDesktop onClick={nextHandler}>
                       Next Step
                     </NextButtonDesktop>
                   </NextDivDesktop>
@@ -113,11 +104,9 @@ export default function PersonalInfo() {
             </div>
           </Main>
           <NextDiv>
-            <Link to="/plan">
-              <NextButton type="submit" onClick={nextHandler}>
-                Next Step
-              </NextButton>
-            </Link>
+            <NextButton type="submit" onClick={nextHandler}>
+              Next Step
+            </NextButton>
           </NextDiv>
         </SectionBack>
       </Section>

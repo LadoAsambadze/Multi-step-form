@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import DesktopPages from "../Components/Desktop-pages";
 import Mobile from "../Components/Mobile-pages";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { setPage } from "../store/PageNum";
 import { setActive } from "../store/Active";
@@ -15,16 +15,20 @@ export default function Plan() {
   const active = useSelector((store: any) => store.active.Boolean);
   const dispatch = useDispatch();
   const [mode, setMode] = useState("arcade");
-  const [price, setPrice] = useState("9motth");
+  const [price, setPrice] = useState("");
   console.log(price);
-  const advRef = useRef(null);
-  const arcadeRef = useRef(null);
-  const proRef = useRef(null);
+  const advRef = useRef<HTMLSpanElement>(null);
+  const arcadeRef = useRef<HTMLSpanElement>(null);
+  const proRef = useRef<HTMLSpanElement>(null);
+
+  const navigate = useNavigate();
   const nextHandler = () => {
     dispatch(setPage(3));
+    navigate("/addons");
   };
   const backHandler = () => {
     dispatch(setPage(1));
+    navigate("/");
   };
   const activeHandler = () => {
     dispatch(setActive(!active));
@@ -32,9 +36,22 @@ export default function Plan() {
   useEffect(() => {
     localStorage.setItem("base", JSON.stringify(base));
   }, [base, mode]);
+
   useEffect(() => {
+    let newPrice: string | null = null;
+    if (mode === "arcade" && arcadeRef.current) {
+      newPrice = arcadeRef.current.textContent;
+    } else if (mode === "advanced" && advRef.current) {
+      newPrice = advRef.current.textContent;
+    } else if (mode === "pro" && proRef.current) {
+      newPrice = proRef.current.textContent;
+    }
+    if (newPrice !== null) {
+      setPrice(newPrice);
+    }
     dispatch(setBase({ property: "price", value: price }));
   }, [active, price]);
+
   console.log(base);
   return (
     <>
@@ -62,7 +79,9 @@ export default function Plan() {
                     onClick={() => {
                       setMode("arcade");
                       dispatch(setBase({ property: "mode", value: "arcade" }));
-                      setPrice(arcadeRef.current.textContent);
+                      if (arcadeRef.current) {
+                        setPrice(arcadeRef.current.textContent || "");
+                      }
                     }}
                   >
                     <Icon src="icon-arcade.svg" />
@@ -85,7 +104,9 @@ export default function Plan() {
                       dispatch(
                         setBase({ property: "mode", value: "advenced" })
                       );
-                      setPrice(advRef.current.textContent);
+                      if (advRef.current) {
+                        setPrice(advRef.current.textContent || "");
+                      }
                     }}
                   >
                     <Icon src="icon-advanced.svg" />
@@ -106,8 +127,9 @@ export default function Plan() {
                     onClick={() => {
                       setMode("pro");
                       dispatch(setBase({ property: "mode", value: "pro" }));
-
-                      setPrice(proRef.current.textContent);
+                      if (proRef.current) {
+                        setPrice(proRef.current.textContent || "");
+                      }
                     }}
                   >
                     <Icon src="icon-pro.svg" />
@@ -124,6 +146,7 @@ export default function Plan() {
                   <Button
                     style={{
                       justifyContent: active ? "flex-end" : "flex-start",
+                      background: active ? "#022959" : "gray",
                     }}
                   >
                     <Circle onClick={activeHandler}></Circle>
@@ -131,27 +154,19 @@ export default function Plan() {
                   <Year>Yearly</Year>
                 </ButtonDiv>
                 <NextDivDesktop>
-                  <Link to="/" style={{ textDecoration: "none" }}>
-                    <Back onClick={backHandler}>Go Back</Back>
-                  </Link>
-                  <Link to="/addons">
-                    <NextButtonDesktop onClick={nextHandler}>
-                      Next Step
-                    </NextButtonDesktop>
-                  </Link>
+                  <Back onClick={backHandler}>Go Back</Back>
+                  <NextButtonDesktop onClick={nextHandler}>
+                    Next Step
+                  </NextButtonDesktop>
                 </NextDivDesktop>
               </Form>
             </div>
           </Main>
           <NextDiv>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <Back onClick={backHandler}>Go Back</Back>
-            </Link>
-            <Link to="/addons">
-              <NextButton onClick={nextHandler} type="submit">
-                Next Step
-              </NextButton>
-            </Link>
+            <Back onClick={backHandler}>Go Back</Back>
+            <NextButton onClick={nextHandler} type="submit">
+              Next Step
+            </NextButton>
           </NextDiv>
         </SectionBack>
       </Section>
