@@ -1,8 +1,10 @@
 import { styled } from "styled-components";
 import { useSelector } from "react-redux/es/exports";
+import { useNavigate } from "react-router-dom";
 
 export default function DesktopPages() {
   const page = useSelector((store: any) => store.page.Number);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -12,6 +14,9 @@ export default function DesktopPages() {
             style={{
               background: page === 1 ? "#bee2fd" : "none",
               color: page === 1 ? "#022959" : "white",
+            }}
+            onClick={() => {
+              navigate("/");
             }}
           >
             1
@@ -27,6 +32,9 @@ export default function DesktopPages() {
               background: page === 2 ? "#bee2fd" : "none",
               color: page === 2 ? "#022959" : "white",
             }}
+            onClick={() => {
+              navigate("/plan");
+            }}
           >
             2
           </NumCircle>
@@ -41,6 +49,9 @@ export default function DesktopPages() {
               background: page === 3 ? "#bee2fd" : "none",
               color: page === 3 ? "#022959" : "white",
             }}
+            onClick={() => {
+              navigate("/addons");
+            }}
           >
             3
           </NumCircle>
@@ -54,6 +65,9 @@ export default function DesktopPages() {
             style={{
               background: page === 4 ? "#bee2fd" : "none",
               color: page === 4 ? "#022959" : "white",
+            }}
+            onClick={() => {
+              navigate("/finish");
             }}
           >
             4
@@ -102,6 +116,7 @@ const NumCircle = styled.div`
   letter-spacing: 1px;
   text-transform: uppercase;
   border: 1px solid #ffffff;
+  cursor: pointer;
 `;
 const NumTextDiv = styled.div`
   display: flex;

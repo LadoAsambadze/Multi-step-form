@@ -1,8 +1,21 @@
 import { styled } from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { setPage } from "../store/PageNum";
 
 export default function Mobile() {
   const page = useSelector((store: any) => store.page.Number);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  localStorage.setItem("pagenum", JSON.stringify(page));
+  useEffect(() => {
+    const getNum = JSON.parse(localStorage.getItem("pagenum") || "false");
+    dispatch(setPage(getNum));
+  }, []);
+
+  console.log(page);
   return (
     <>
       <Main>
@@ -10,6 +23,10 @@ export default function Mobile() {
           style={{
             background: page === 1 ? "#bee2fd" : "none",
             color: page === 1 ? "#022959" : "white",
+          }}
+          onClick={() => {
+            navigate("/");
+            dispatch(setPage(1));
           }}
         >
           1
@@ -19,6 +36,10 @@ export default function Mobile() {
             background: page === 2 ? "#bee2fd" : "none",
             color: page === 2 ? "#022959" : "white",
           }}
+          onClick={() => {
+            navigate("/plan");
+            dispatch(setPage(2));
+          }}
         >
           2
         </PageButton>
@@ -27,6 +48,10 @@ export default function Mobile() {
             background: page === 3 ? "#bee2fd" : "none",
             color: page === 3 ? "#022959" : "white",
           }}
+          onClick={() => {
+            navigate("/addons");
+            dispatch(setPage(3));
+          }}
         >
           3
         </PageButton>
@@ -34,6 +59,10 @@ export default function Mobile() {
           style={{
             background: page === 4 ? "#bee2fd" : "none",
             color: page === 4 ? "#022959" : "white",
+          }}
+          onClick={() => {
+            navigate("/finish");
+            dispatch(setPage(4));
           }}
         >
           4

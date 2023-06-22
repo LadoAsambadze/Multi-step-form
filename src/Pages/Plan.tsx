@@ -50,6 +50,14 @@ export default function Plan() {
   };
 
   useEffect(() => {
+    dispatch(setBase({ property: "Online service", value: null }));
+    dispatch(setBase({ property: "Larger storage", value: null }));
+    dispatch(setBase({ property: "Customizable profile", value: null }));
+    const update = JSON.parse(localStorage.getItem("base") || "false");
+    dispatch(setBase(update));
+  }, [active]);
+
+  useEffect(() => {
     if (base.mode === "arcade") {
       if (!active) {
         dispatch(setBase({ property: "price", value: "$9/mo" }));
@@ -64,7 +72,7 @@ export default function Plan() {
       } else dispatch(setBase({ property: "price", value: "$150/year" }));
     }
   });
-  
+
   return (
     <>
       <Section>

@@ -4,86 +4,46 @@ import Mobile from "../Components/Mobile-pages";
 import { useNavigate } from "react-router-dom";
 import { setPage } from "../store/PageNum";
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { useState } from "react";
-import { useRef } from "react";
 import { useEffect } from "react";
 import { setBase } from "../store/DataBase";
 import { setActive } from "../store/Active";
+import { useState } from "react";
+
 export default function Addons() {
   const active = useSelector((store: any) => store.active.Boolean);
+  const base = useSelector((store: any) => store.base);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [hasMounted, setHasMounted] = useState(false);
 
-  const [checkedValues, setCheckedValues] = useState([false, false, false]);
-  
   useEffect(() => {
     hasMounted
-      ? localStorage.setItem("array", JSON.stringify(checkedValues))
+      ? localStorage.setItem("base", JSON.stringify(base))
       : setHasMounted(true);
-  }, [checkedValues, hasMounted]);
+  }, [base, hasMounted]);
 
   useEffect(() => {
-    const newArr = JSON.parse(localStorage.getItem("array") || "false");
-    setCheckedValues(newArr);
     const newBtn = JSON.parse(localStorage.getItem("btn") || "false");
     dispatch(setActive(newBtn));
   }, []);
 
-  console.log(active);
-
   const nextHandler = () => {
-    if (checkedValues.includes(true)) {
-      dispatch(setPage(4));
-      navigate("/finish");
-    }
+    dispatch(setPage(4));
+    navigate("/finish");
   };
   const backHandler = () => {
     dispatch(setPage(2));
     navigate("/plan");
   };
+  // useEffect(() => {
+  //   dispatch(setBase({ property: "online", value: null }));
+  //   dispatch(setBase({ property: "local", value: null }));
+  //   dispatch(setBase({ property: "profile", value: null }));
+  //   const update = JSON.parse(localStorage.getItem("base") || "false");
+  //   dispatch(setBase(update));
+  // }, [active]);
 
-  const handleCheckboxClick = (index: number) => () => {
-    const newCheckedValues = [...checkedValues];
-    newCheckedValues[index] = !newCheckedValues[index];
-    setCheckedValues(newCheckedValues);
-  };
-
-  const serviceRef = useRef<HTMLSpanElement | null>(null);
-  const storageRef = useRef<HTMLSpanElement | null>(null);
-  const profileRef = useRef<HTMLSpanElement | null>(null);
-
-  useEffect(() => {
-    dispatch(
-      setBase({
-        property: "Online Service",
-        value:
-          checkedValues[0] === true
-            ? serviceRef?.current?.textContent ?? ""
-            : "",
-      })
-    );
-    dispatch(
-      setBase({
-        property: "Local Storage",
-        value:
-          checkedValues[1] === true
-            ? storageRef?.current?.textContent ?? ""
-            : "",
-      })
-    );
-    dispatch(
-      setBase({
-        property: "Customizable Profile",
-        value:
-          checkedValues[2] === true
-            ? profileRef?.current?.textContent ?? ""
-            : "",
-      })
-    );
-  }, [checkedValues]);
-
-  console.log(checkedValues);
   return (
     <>
       <Section>
@@ -101,19 +61,39 @@ export default function Addons() {
                   <AddonDiv>
                     <ChooseDiv
                       style={{
-                        border: checkedValues[0]
-                          ? "1px solid #483eff"
-                          : "1px solid #D6D9E6",
+                        border:
+                          base["Online service"] !== null
+                            ? "1px solid #483eff"
+                            : "1px solid #D6D9E6",
                       }}
-                      onClick={handleCheckboxClick(0)}
+                      onClick={() => {
+                        if (base["Online service"] !== null) {
+                          dispatch(
+                            setBase({
+                              property: "Online service",
+                              value: null,
+                            })
+                          );
+                        } else
+                          dispatch(
+                            setBase({
+                              property: "Online service",
+                              value: !active ? "+$1/mo" : "+$10/yr",
+                            })
+                          );
+                      }}
                     >
                       <CheckBox
                         style={{
-                          background: checkedValues[0] ? "#483EFF" : "white",
-                          borderColor: checkedValues[0] ? "#D6D9E6" : "",
+                          background:
+                            base["Online service"] !== null
+                              ? "#483EFF"
+                              : "white",
+                          borderColor:
+                            base["Online service"] !== null ? "#D6D9E6" : "",
                         }}
                       >
-                        {checkedValues[0] ? (
+                        {base["Online service"] !== null ? (
                           <img src="icon-checkmark.svg" />
                         ) : null}
                       </CheckBox>
@@ -121,27 +101,45 @@ export default function Addons() {
                         <TextHeader>Online service</TextHeader>
                         <TextP>Access to multiplayer games</TextP>
                       </ChooseTextDiv>
-                      <Dollar ref={serviceRef}>
-                        {!active ? "+$1/mo" : "+$10/yr"}
-                      </Dollar>
+                      <Dollar>{!active ? "+$1/mo" : "+$10/yr"}</Dollar>
                     </ChooseDiv>
                   </AddonDiv>
                   <AddonDiv>
                     <ChooseDiv
                       style={{
-                        border: checkedValues[1]
-                          ? "1px solid #483eff"
-                          : "1px solid #D6D9E6",
+                        border:
+                          base["Larger storage"] !== null
+                            ? "1px solid #483eff"
+                            : "1px solid #D6D9E6",
                       }}
-                      onClick={handleCheckboxClick(1)}
+                      onClick={() => {
+                        if (base["Larger storage"] !== null) {
+                          dispatch(
+                            setBase({
+                              property: "Larger storage",
+                              value: null,
+                            })
+                          );
+                        } else
+                          dispatch(
+                            setBase({
+                              property: "Larger storage",
+                              value: !active ? "+$1/mo" : "+$10/yr",
+                            })
+                          );
+                      }}
                     >
                       <CheckBox
                         style={{
-                          background: checkedValues[1] ? "#483EFF" : "white",
-                          borderColor: checkedValues[1] ? "#D6D9E6" : "",
+                          background:
+                            base["Larger storage"] !== null
+                              ? "#483EFF"
+                              : "white",
+                          borderColor:
+                            base["Larger storage"] !== null ? "#D6D9E6" : "",
                         }}
                       >
-                        {checkedValues[1] ? (
+                        {base["Larger storage"] !== null ? (
                           <img src="icon-checkmark.svg" />
                         ) : null}
                       </CheckBox>
@@ -149,27 +147,47 @@ export default function Addons() {
                         <TextHeader>Larger storage</TextHeader>
                         <TextP>Extra 1TB of cloud save</TextP>
                       </ChooseTextDiv>
-                      <Dollar ref={storageRef}>
-                        {!active ? "+$2/mo" : "+$20/yr"}
-                      </Dollar>
+                      <Dollar>{!active ? "+$2/mo" : "+$20/yr"}</Dollar>
                     </ChooseDiv>
                   </AddonDiv>
                   <AddonDiv>
                     <ChooseDiv
                       style={{
-                        border: checkedValues[2]
-                          ? "1px solid #483eff"
-                          : "1px solid #D6D9E6",
+                        border:
+                          base["Customizable profile"] !== null
+                            ? "1px solid #483eff"
+                            : "1px solid #D6D9E6",
                       }}
-                      onClick={handleCheckboxClick(2)}
+                      onClick={() => {
+                        if (base["Customizable profile"] !== null) {
+                          dispatch(
+                            setBase({
+                              property: "Customizable profile",
+                              value: null,
+                            })
+                          );
+                        } else
+                          dispatch(
+                            setBase({
+                              property: "Customizable profile",
+                              value: !active ? "+$1/mo" : "+$10/yr",
+                            })
+                          );
+                      }}
                     >
                       <CheckBox
                         style={{
-                          background: checkedValues[2] ? "#483EFF" : "white",
-                          borderColor: checkedValues[2] ? "#D6D9E6" : "",
+                          background:
+                            base["Customizable profile"] !== null
+                              ? "#483EFF"
+                              : "white",
+                          borderColor:
+                            base["Customizable profile"] !== null
+                              ? "#D6D9E6"
+                              : "",
                         }}
                       >
-                        {checkedValues[2] ? (
+                        {base["Customizable profile"] !== null ? (
                           <img src="icon-checkmark.svg" />
                         ) : null}
                       </CheckBox>
@@ -177,9 +195,7 @@ export default function Addons() {
                         <TextHeader>Customizable profile</TextHeader>
                         <TextP>Custom theme on your profile</TextP>
                       </ChooseTextDiv>
-                      <Dollar ref={profileRef}>
-                        {!active ? "+$2/mo" : "+$20/yr"}
-                      </Dollar>
+                      <Dollar>{!active ? "+$2/mo" : "+$20/yr"}</Dollar>
                     </ChooseDiv>
                   </AddonDiv>
                   <NextDivDesktop>

@@ -7,7 +7,7 @@ interface BaseType {
   number: number;
   mode: string;
   price: number;
-  online: string | null;
+  "Online service": "string" | null;
   local: string | null;
   profile: string | null;
 }
@@ -16,7 +16,7 @@ type door = keyof BaseType;
 
 interface BasePayload {
   property: door;
-  value: string;
+  value: string | null;
 }
 
 const base: BaseType = {
@@ -25,7 +25,7 @@ const base: BaseType = {
   number: 0,
   mode: "",
   price: 0,
-  online: null,
+  "Online service": null,
   local: null,
   profile: null,
 };

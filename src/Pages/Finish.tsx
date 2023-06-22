@@ -12,7 +12,7 @@ export default function Finish() {
   const base = useSelector((store: any) => store.base);
   const active = useSelector((store: any) => store.active.boolean);
   const navigate = useNavigate();
-  const options = ["Online Service", "Local Storage", "Customizable Profile"];
+  const options = ["Online service", "Larger storage", "Customizable profile"];
   const [thank, setThank] = useState<boolean>(false);
   const backHandler = () => {
     dispatch(setPage(3));
@@ -20,9 +20,9 @@ export default function Finish() {
   };
   const keys = [
     "price",
-    "Online Service",
-    "Local Storage",
-    "Customizable Profile",
+    "Online service",
+    "Larger storage",
+    "Customizable profile",
   ];
   const sum = keys.reduce((acc, key) => {
     if (base[key]) {
@@ -31,9 +31,6 @@ export default function Finish() {
     }
     return acc;
   }, 0);
-
-  console.log(base.price * 10);
-  console.log(active);
 
   return (
     <>
@@ -103,7 +100,7 @@ export default function Finish() {
               </Info>
             </div>
           </Main>
-          <NextDiv>
+          <NextDiv style={{ display: thank ? "none" : "block" }}>
             <Back onClick={backHandler}>Go Back</Back>
             <NextButton
               onClick={() => {
@@ -212,7 +209,7 @@ const NextDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  padding: 25px 16px 16px 16px;
+  padding: 25px 16px 25px 16px;
   cursor: pointer;
   @media (min-width: 1400px) {
     display: none;
