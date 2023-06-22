@@ -8,16 +8,35 @@ import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { setBase } from "../store/DataBase";
+import { setActive } from "../store/Active";
 export default function Addons() {
   const active = useSelector((store: any) => store.active.Boolean);
-  const base = useSelector((store: any) => store.base);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [hasMounted, setHasMounted] = useState(false);
+
   const [checkedValues, setCheckedValues] = useState([false, false, false]);
+  
+  useEffect(() => {
+    hasMounted
+      ? localStorage.setItem("array", JSON.stringify(checkedValues))
+      : setHasMounted(true);
+  }, [checkedValues, hasMounted]);
+
+  useEffect(() => {
+    const newArr = JSON.parse(localStorage.getItem("array") || "false");
+    setCheckedValues(newArr);
+    const newBtn = JSON.parse(localStorage.getItem("btn") || "false");
+    dispatch(setActive(newBtn));
+  }, []);
+
+  console.log(active);
 
   const nextHandler = () => {
-    dispatch(setPage(4));
-    navigate("/finish");
+    if (checkedValues.includes(true)) {
+      dispatch(setPage(4));
+      navigate("/finish");
+    }
   };
   const backHandler = () => {
     dispatch(setPage(2));
@@ -64,7 +83,6 @@ export default function Addons() {
     );
   }, [checkedValues]);
 
-  console.log(base);
   console.log(checkedValues);
   return (
     <>
@@ -177,9 +195,7 @@ export default function Addons() {
           </Main>
           <NextDiv>
             <Back onClick={backHandler}>Go Back</Back>
-            <NextButton onClick={nextHandler} type="submit">
-              Next Step
-            </NextButton>
+            <NextButton onClick={nextHandler}>Next Step</NextButton>
           </NextDiv>
         </SectionBack>
       </Section>

@@ -37,9 +37,12 @@ const dataBase = createSlice({
     setBase: (state, action: PayloadAction<BasePayload>) => {
       state[action.payload.property] = action.payload.value;
     },
+    updateLocal: (state, action) => {
+      return { ...state, ...action.payload };
+    },
   },
 });
 
-export const { setBase } = dataBase.actions;
+export const { setBase, updateLocal } = dataBase.actions;
 
 export default dataBase.reducer;

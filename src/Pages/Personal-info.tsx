@@ -6,9 +6,10 @@ import DesktopPages from "../Components/Desktop-pages";
 import { useSelector } from "react-redux";
 import { setPage } from "../store/PageNum";
 import { useDispatch } from "react-redux/es/exports";
-import { setBase } from "../store/DataBase";
+import { setBase} from "../store/DataBase";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 interface Type {
   name: string;
   email: string;
@@ -19,11 +20,16 @@ export default function PersonalInfo() {
   const { register } = useForm<Type>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const base = useSelector((store: any) => store.base);
+  const base = useSelector((store:any) => store.base);
+ 
+
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("base", JSON.stringify(base));
-  }, [base]);
+    hasMounted
+      ? localStorage.setItem("base", JSON.stringify(base))
+      : setHasMounted(true);
+  }, [base, hasMounted]);
 
   const nextHandler = () => {
     dispatch(setPage(2));
@@ -47,7 +53,7 @@ export default function PersonalInfo() {
 
                 <Form>
                   <Label style={{ marginTop: 0 }}>
-                    <LabelP>Phone Number</LabelP>
+                    <LabelP>Full name</LabelP>
                     <Error>This field is required</Error>
                   </Label>
                   <Input
@@ -61,6 +67,7 @@ export default function PersonalInfo() {
                         );
                       },
                     })}
+                    value={base.name}
                   />
                   <Label>
                     <LabelP>Email Adress</LabelP>
@@ -77,6 +84,7 @@ export default function PersonalInfo() {
                         );
                       },
                     })}
+                    value={base.email}
                   />
                   <Label>
                     <LabelP>Phone Number</LabelP>
@@ -93,6 +101,7 @@ export default function PersonalInfo() {
                         );
                       },
                     })}
+                    value={base.number}
                   />
                   <NextDivDesktop>
                     <NextButtonDesktop onClick={nextHandler}>

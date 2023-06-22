@@ -32,6 +32,9 @@ export default function Finish() {
     return acc;
   }, 0);
 
+  console.log(base.price * 10);
+  console.log(active);
+
   return (
     <>
       <Section>
@@ -63,7 +66,7 @@ export default function Finish() {
                           Change
                         </TextP>
                       </DoubleTextDiv>
-                      <Dollar>{base.price}</Dollar>
+                      <Dollar>{active ? base.price * 10 : base.price}</Dollar>
                     </MainTextDiv>
                     <Line></Line>
 

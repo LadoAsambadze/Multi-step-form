@@ -3,20 +3,31 @@ import { Routes, Route } from "react-router-dom";
 import Plan from "./Pages/Plan";
 import Addons from "./Pages/Addons";
 import Finish from "./Pages/Finish";
-import store from "./store/redux";
-import { Provider } from "react-redux/es/exports";
+
+import { useDispatch } from "react-redux/es/exports";
+import { useEffect } from "react";
+import { useSelector } from "react-redux/es/exports";
+import { updateLocal } from "./store/DataBase";
 
 function App() {
+  const base = useSelector((store: any) => store.base);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const newBase = JSON.parse(localStorage.getItem("base")) || base;
+    dispatch(updateLocal(newBase));
+  }, []);
+
+  
+  
   return (
     <>
-      <Provider store={store}>
-        <Routes>
-          <Route path="/" element={<PersonalInfo />} />
-          <Route path="/plan" element={<Plan />} />
-          <Route path="/addons" element={<Addons />} />
-          <Route path="/finish" element={<Finish />} />
-        </Routes>
-      </Provider>
+      <Routes>
+        <Route path="/" element={<PersonalInfo />} />
+        <Route path="/plan" element={<Plan />} />
+        <Route path="/addons" element={<Addons />} />
+        <Route path="/finish" element={<Finish />} />
+      </Routes>
     </>
   );
 }

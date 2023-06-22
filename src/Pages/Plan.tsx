@@ -8,19 +8,33 @@ import { setActive } from "../store/Active";
 import { useState } from "react";
 import { setBase } from "../store/DataBase";
 import { useEffect } from "react";
-import { useRef } from "react";
 
 export default function Plan() {
   const base = useSelector((store: any) => store.base);
   const active = useSelector((store: any) => store.active.Boolean);
   const dispatch = useDispatch();
-  const [mode, setMode] = useState<String | null>(null);
-  const [price, setPrice] = useState("");
-  const advRef = useRef<HTMLSpanElement>(null);
-  const arcadeRef = useRef<HTMLSpanElement>(null);
-  const proRef = useRef<HTMLSpanElement>(null);
   const navigate = useNavigate();
+  const [hasMounted, setHasMounted] = useState(false);
+  const [hasMount, setHasMount] = useState(false);
 
+  useEffect(() => {
+    hasMounted
+      ? localStorage.setItem("base", JSON.stringify(base))
+      : setHasMounted(true);
+  }, [base, hasMounted]);
+
+  useEffect(() => {
+    hasMount
+      ? localStorage.setItem("btn", JSON.stringify(active))
+      : setHasMount(true);
+  }, [active]);
+
+  useEffect(() => {
+    const newBtn = JSON.parse(localStorage.getItem("btn") || "false");
+    dispatch(setActive(newBtn));
+  }, [active]);
+
+  console.log(active);
   const nextHandler = () => {
     dispatch(setPage(3));
     navigate("/addons");
@@ -36,26 +50,21 @@ export default function Plan() {
   };
 
   useEffect(() => {
-    let newPrice: string | null = null;
-    if (mode === "arcade" && arcadeRef.current) {
-      newPrice = arcadeRef.current.textContent;
-    } else if (mode === "advanced" && advRef.current) {
-      newPrice = advRef.current.textContent;
-    } else if (mode === "pro" && proRef.current) {
-      newPrice = proRef.current.textContent;
+    if (base.mode === "arcade") {
+      if (!active) {
+        dispatch(setBase({ property: "price", value: "$9/mo" }));
+      } else dispatch(setBase({ property: "price", value: "$90/year" }));
+    } else if (base.mode === "advanced") {
+      if (!active) {
+        dispatch(setBase({ property: "price", value: "$12/mo" }));
+      } else dispatch(setBase({ property: "price", value: "$120/year" }));
+    } else if (base.mode === "pro") {
+      if (!active) {
+        dispatch(setBase({ property: "price", value: "$15/mo" }));
+      } else dispatch(setBase({ property: "price", value: "$150/year" }));
     }
-    if (newPrice !== null) {
-      setPrice(newPrice);
-    }
-    dispatch(setBase({ property: "price", value: price }));
-  }, [active, price]);
-
-  useEffect(() => {
-    localStorage.setItem("base", JSON.stringify(base));
-  }, [base, mode]);
-
-  console.log(mode);
-
+  });
+  
   return (
     <>
       <Section>
@@ -75,72 +84,54 @@ export default function Plan() {
                   <ModeDiv
                     style={{
                       border:
-                        mode === "arcade"
+                        base.mode === "arcade"
                           ? "1px solid #483eff"
                           : "1px solid #D6D9E6",
                     }}
                     onClick={() => {
-                      setMode("arcade");
                       dispatch(setBase({ property: "mode", value: "arcade" }));
-                      if (arcadeRef.current) {
-                        setPrice(arcadeRef.current.textContent || "");
-                      }
                     }}
                   >
                     <Icon src="icon-arcade.svg" />
                     <ModeTextDiv>
                       <ModeHeader>Arcade</ModeHeader>
-                      <Price ref={arcadeRef}>
-                        {!active ? "$9/mo" : "$90/year"}
-                      </Price>
+                      <Price>{!active ? "$9/mo" : "$90/year"}</Price>
                     </ModeTextDiv>
                   </ModeDiv>
                   <ModeDiv
                     style={{
                       border:
-                        mode === "advanced"
+                        base.mode === "advanced"
                           ? "1px solid #483eff"
                           : "1px solid #D6D9E6",
                     }}
                     onClick={() => {
-                      setMode("advanced");
                       dispatch(
-                        setBase({ property: "mode", value: "advenced" })
+                        setBase({ property: "mode", value: "advanced" })
                       );
-                      if (advRef.current) {
-                        setPrice(advRef.current.textContent || "");
-                      }
                     }}
                   >
                     <Icon src="icon-advanced.svg" />
                     <ModeTextDiv>
                       <ModeHeader>Advanced</ModeHeader>
-                      <Price ref={advRef}>
-                        {!active ? "$12/mo" : "$120/year"}
-                      </Price>
+                      <Price>{!active ? "$12/mo" : "$120/year"}</Price>
                     </ModeTextDiv>
                   </ModeDiv>
                   <ModeDiv
                     style={{
                       border:
-                        mode === "pro"
+                        base.mode === "pro"
                           ? "1px solid #483eff"
                           : "1px solid #D6D9E6",
                     }}
                     onClick={() => {
-                      setMode("pro");
                       dispatch(setBase({ property: "mode", value: "pro" }));
-                      if (proRef.current) {
-                        setPrice(proRef.current.textContent || "");
-                      }
                     }}
                   >
                     <Icon src="icon-pro.svg" />
                     <ModeTextDiv>
                       <ModeHeader>Pro</ModeHeader>
-                      <Price ref={proRef}>
-                        {!active ? "$15/mo" : "$150/year"}
-                      </Price>
+                      <Price>{!active ? "$15/mo" : "$150/year"}</Price>
                     </ModeTextDiv>
                   </ModeDiv>
                 </Sector>
@@ -161,7 +152,7 @@ export default function Plan() {
                   <Back onClick={backHandler}>Go Back</Back>
                   <NextButtonDesktop
                     onClick={() => {
-                      if (mode !== null) {
+                      if (base.mode !== "null") {
                         nextHandler();
                       }
                     }}
@@ -176,7 +167,7 @@ export default function Plan() {
             <Back onClick={backHandler}>Go Back</Back>
             <NextButton
               onClick={() => {
-                if (mode !== null) {
+                if (base.mode !== "null") {
                   nextHandler();
                 }
               }}
