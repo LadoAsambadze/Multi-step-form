@@ -2,28 +2,26 @@ import { styled } from "styled-components";
 import Mobile from "../Components/Mobile-pages";
 import { useForm } from "react-hook-form";
 import DesktopPages from "../Components/Desktop-pages";
-
 import { useSelector } from "react-redux";
 import { setPage } from "../store/PageNum";
 import { useDispatch } from "react-redux/es/exports";
-import { setBase} from "../store/DataBase";
+import { setBase } from "../store/DataBase";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+
 interface Type {
   name: string;
   email: string;
   number: number;
 }
-
 export default function PersonalInfo() {
-  const { register } = useForm<Type>();
+  const { register, formState } = useForm<Type>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const base = useSelector((store:any) => store.base);
- 
-
-  const [hasMounted, setHasMounted] = useState(false);
+  const base = useSelector((store: any) => store.base);
+  const [hasMounted, setHasMounted] = useState<boolean>(false);
+  const { isValid } = formState;
 
   useEffect(() => {
     hasMounted
@@ -32,8 +30,10 @@ export default function PersonalInfo() {
   }, [base, hasMounted]);
 
   const nextHandler = () => {
-    dispatch(setPage(2));
-    navigate("/plan");
+    if (isValid) {
+      dispatch(setPage(2));
+      navigate("/plan");
+    }
   };
 
   return (
@@ -113,9 +113,7 @@ export default function PersonalInfo() {
             </div>
           </Main>
           <NextDiv>
-            <NextButton type="submit" onClick={nextHandler}>
-              Next Step
-            </NextButton>
+            <NextButton onClick={nextHandler}>Next Step</NextButton>
           </NextDiv>
         </SectionBack>
       </Section>

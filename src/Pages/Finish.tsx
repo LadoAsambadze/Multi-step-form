@@ -15,6 +15,7 @@ export default function Finish() {
   const navigate = useNavigate();
   const options = ["Online_service", "Larger_storage", "Customizable_profile"];
   const [thank, setThank] = useState<boolean>(false);
+  const [mobile, setMobile] = useState<boolean>(false);
   const backHandler = () => {
     dispatch(setPage(3));
     navigate("/addons");
@@ -111,12 +112,19 @@ export default function Finish() {
               </Info>
             </div>
           </Main>
-          <NextDiv style={{ display: thank ? "none" : "flex" }}>
-            <Back onClick={backHandler}>Go Back</Back>
+          <NextDiv>
+            <Back
+              onClick={backHandler}
+              style={{ display: mobile ? "none" : "flex" }}
+            >
+              Go Back
+            </Back>
             <NextButton
+              style={{ display: mobile ? "none" : "flex" }}
               onClick={() => {
                 setThank(true);
                 postData(base);
+                setMobile(true);
               }}
             >
               Confirm
@@ -142,6 +150,9 @@ const Section = styled.section`
 const SectionBack = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  background: #eff5ff;
 
   @media (min-width: 1400px) {
     display: flex;
