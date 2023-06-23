@@ -62,22 +62,22 @@ export default function Addons() {
                     <ChooseDiv
                       style={{
                         border:
-                          base["Online service"] !== null
+                          base.Online_service !== null
                             ? "1px solid #483eff"
                             : "1px solid #D6D9E6",
                       }}
                       onClick={() => {
-                        if (base["Online service"] !== null) {
+                        if (base.Online_service !== null) {
                           dispatch(
                             setBase({
-                              property: "Online service",
+                              property: "Online_service",
                               value: null,
                             })
                           );
                         } else
                           dispatch(
                             setBase({
-                              property: "Online service",
+                              property: "Online_service",
                               value: !active ? "+$1/mo" : "+$10/yr",
                             })
                           );
@@ -86,14 +86,12 @@ export default function Addons() {
                       <CheckBox
                         style={{
                           background:
-                            base["Online service"] !== null
-                              ? "#483EFF"
-                              : "white",
+                            base.Online_service !== null ? "#483EFF" : "white",
                           borderColor:
-                            base["Online service"] !== null ? "#D6D9E6" : "",
+                            base.Online_service !== null ? "#D6D9E6" : "",
                         }}
                       >
-                        {base["Online service"] !== null ? (
+                        {base.Online_service !== null ? (
                           <img src="icon-checkmark.svg" />
                         ) : null}
                       </CheckBox>
@@ -108,22 +106,22 @@ export default function Addons() {
                     <ChooseDiv
                       style={{
                         border:
-                          base["Larger storage"] !== null
+                          base.Larger_storage !== null
                             ? "1px solid #483eff"
                             : "1px solid #D6D9E6",
                       }}
                       onClick={() => {
-                        if (base["Larger storage"] !== null) {
+                        if (base.Larger_storage !== null) {
                           dispatch(
                             setBase({
-                              property: "Larger storage",
+                              property: "Larger_storage",
                               value: null,
                             })
                           );
                         } else
                           dispatch(
                             setBase({
-                              property: "Larger storage",
+                              property: "Larger_storage",
                               value: !active ? "+$1/mo" : "+$10/yr",
                             })
                           );
@@ -132,14 +130,12 @@ export default function Addons() {
                       <CheckBox
                         style={{
                           background:
-                            base["Larger storage"] !== null
-                              ? "#483EFF"
-                              : "white",
+                            base.Larger_storage !== null ? "#483EFF" : "white",
                           borderColor:
-                            base["Larger storage"] !== null ? "#D6D9E6" : "",
+                            base.Larger_storage !== null ? "#D6D9E6" : "",
                         }}
                       >
-                        {base["Larger storage"] !== null ? (
+                        {base.Larger_storage !== null ? (
                           <img src="icon-checkmark.svg" />
                         ) : null}
                       </CheckBox>
@@ -154,22 +150,22 @@ export default function Addons() {
                     <ChooseDiv
                       style={{
                         border:
-                          base["Customizable profile"] !== null
+                          base.Customizable_profile !== null
                             ? "1px solid #483eff"
                             : "1px solid #D6D9E6",
                       }}
                       onClick={() => {
-                        if (base["Customizable profile"] !== null) {
+                        if (base.Customizable_profile !== null) {
                           dispatch(
                             setBase({
-                              property: "Customizable profile",
+                              property: "Customizable_profile",
                               value: null,
                             })
                           );
                         } else
                           dispatch(
                             setBase({
-                              property: "Customizable profile",
+                              property: "Customizable_profile",
                               value: !active ? "+$1/mo" : "+$10/yr",
                             })
                           );
@@ -178,16 +174,14 @@ export default function Addons() {
                       <CheckBox
                         style={{
                           background:
-                            base["Customizable profile"] !== null
+                            base.Customizable_profile !== null
                               ? "#483EFF"
                               : "white",
                           borderColor:
-                            base["Customizable profile"] !== null
-                              ? "#D6D9E6"
-                              : "",
+                            base.Customizable_profile !== null ? "#D6D9E6" : "",
                         }}
                       >
-                        {base["Customizable profile"] !== null ? (
+                        {base.Customizable_profile !== null ? (
                           <img src="icon-checkmark.svg" />
                         ) : null}
                       </CheckBox>

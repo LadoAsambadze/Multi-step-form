@@ -50,9 +50,9 @@ export default function Plan() {
   };
 
   useEffect(() => {
-    dispatch(setBase({ property: "Online service", value: null }));
-    dispatch(setBase({ property: "Larger storage", value: null }));
-    dispatch(setBase({ property: "Customizable profile", value: null }));
+    dispatch(setBase({ property: "Online_service", value: null }));
+    dispatch(setBase({ property: "Larger_storage", value: null }));
+    dispatch(setBase({ property: "Customizable_profile", value: null }));
     const update = JSON.parse(localStorage.getItem("base") || "false");
     dispatch(setBase(update));
   }, [active]);

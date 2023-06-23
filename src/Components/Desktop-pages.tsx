@@ -1,19 +1,17 @@
 import { styled } from "styled-components";
-import { useSelector } from "react-redux/es/exports";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function DesktopPages() {
-  const page = useSelector((store: any) => store.page.Number);
   const navigate = useNavigate();
-
+  const location = useLocation();
   return (
     <>
       <DesktopNum>
         <StepNumDiv>
           <NumCircle
             style={{
-              background: page === 1 ? "#bee2fd" : "none",
-              color: page === 1 ? "#022959" : "white",
+              background: location.pathname === "/" ? "#bee2fd" : "none",
+              color: location.pathname === "/" ? "#022959" : "white",
             }}
             onClick={() => {
               navigate("/");
@@ -29,8 +27,8 @@ export default function DesktopPages() {
         <StepNumDiv>
           <NumCircle
             style={{
-              background: page === 2 ? "#bee2fd" : "none",
-              color: page === 2 ? "#022959" : "white",
+              background: location.pathname === "/plan" ? "#bee2fd" : "none",
+              color: location.pathname === "/plan" ? "#022959" : "white",
             }}
             onClick={() => {
               navigate("/plan");
@@ -46,8 +44,8 @@ export default function DesktopPages() {
         <StepNumDiv>
           <NumCircle
             style={{
-              background: page === 3 ? "#bee2fd" : "none",
-              color: page === 3 ? "#022959" : "white",
+              background: location.pathname === "/addons" ? "#bee2fd" : "none",
+              color: location.pathname === "/addons" ? "#022959" : "white",
             }}
             onClick={() => {
               navigate("/addons");
@@ -63,8 +61,8 @@ export default function DesktopPages() {
         <StepNumDiv>
           <NumCircle
             style={{
-              background: page === 4 ? "#bee2fd" : "none",
-              color: page === 4 ? "#022959" : "white",
+              background: location.pathname === "/finish" ? "#bee2fd" : "none",
+              color: location.pathname === "/finish" ? "#022959" : "white",
             }}
             onClick={() => {
               navigate("/finish");

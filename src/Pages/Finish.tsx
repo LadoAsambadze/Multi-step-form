@@ -6,13 +6,14 @@ import { setPage } from "../store/PageNum";
 import Thank from "../Components/Thank";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 export default function Finish() {
   const dispatch = useDispatch();
   const base = useSelector((store: any) => store.base);
   const active = useSelector((store: any) => store.active.boolean);
   const navigate = useNavigate();
-  const options = ["Online service", "Larger storage", "Customizable profile"];
+  const options = ["Online_service", "Larger_storage", "Customizable_profile"];
   const [thank, setThank] = useState<boolean>(false);
   const backHandler = () => {
     dispatch(setPage(3));
@@ -20,9 +21,9 @@ export default function Finish() {
   };
   const keys = [
     "price",
-    "Online service",
-    "Larger storage",
-    "Customizable profile",
+    "Online_service",
+    "Larger_storage",
+    "Customizable_profile",
   ];
   const sum = keys.reduce((acc, key) => {
     if (base[key]) {
@@ -31,6 +32,15 @@ export default function Finish() {
     }
     return acc;
   }, 0);
+
+  const postData = async (base: any) => {
+    try {
+      const response = await axios.post("http://localhost:3000/api", base);
+      console.log(response.data.info);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -90,6 +100,7 @@ export default function Finish() {
                     <NextButtonDesktop
                       onClick={() => {
                         setThank(true);
+                        postData(base);
                       }}
                       type="button"
                     >
@@ -100,11 +111,12 @@ export default function Finish() {
               </Info>
             </div>
           </Main>
-          <NextDiv style={{ display: thank ? "none" : "block" }}>
+          <NextDiv style={{ display: thank ? "none" : "flex" }}>
             <Back onClick={backHandler}>Go Back</Back>
             <NextButton
               onClick={() => {
                 setThank(true);
+                postData(base);
               }}
             >
               Confirm

@@ -1,28 +1,20 @@
 import { styled } from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { setPage } from "../store/PageNum";
-
+import { useLocation } from "react-router-dom";
 export default function Mobile() {
-  const page = useSelector((store: any) => store.page.Number);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
-  localStorage.setItem("pagenum", JSON.stringify(page));
-  useEffect(() => {
-    const getNum = JSON.parse(localStorage.getItem("pagenum") || "false");
-    dispatch(setPage(getNum));
-  }, []);
-
-  console.log(page);
   return (
     <>
       <Main>
         <PageButton
           style={{
-            background: page === 1 ? "#bee2fd" : "none",
-            color: page === 1 ? "#022959" : "white",
+            background: location.pathname === "/" ? "#bee2fd" : "none",
+            color: location.pathname === "/" ? "#022959" : "white",
           }}
           onClick={() => {
             navigate("/");
@@ -33,8 +25,8 @@ export default function Mobile() {
         </PageButton>
         <PageButton
           style={{
-            background: page === 2 ? "#bee2fd" : "none",
-            color: page === 2 ? "#022959" : "white",
+            background: location.pathname === "/plan" ? "#bee2fd" : "none",
+            color: location.pathname === "/plan" ? "#022959" : "white",
           }}
           onClick={() => {
             navigate("/plan");
@@ -45,8 +37,8 @@ export default function Mobile() {
         </PageButton>
         <PageButton
           style={{
-            background: page === 3 ? "#bee2fd" : "none",
-            color: page === 3 ? "#022959" : "white",
+            background: location.pathname === "/addons" ? "#bee2fd" : "none",
+            color: location.pathname === "/addons" ? "#022959" : "white",
           }}
           onClick={() => {
             navigate("/addons");
@@ -57,8 +49,8 @@ export default function Mobile() {
         </PageButton>
         <PageButton
           style={{
-            background: page === 4 ? "#bee2fd" : "none",
-            color: page === 4 ? "#022959" : "white",
+            background: location.pathname === "/finish" ? "#bee2fd" : "none",
+            color: location.pathname === "/finish" ? "#022959" : "white",
           }}
           onClick={() => {
             navigate("/finish");
