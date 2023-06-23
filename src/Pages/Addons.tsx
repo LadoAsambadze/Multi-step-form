@@ -55,16 +55,16 @@ export default function Addons() {
                     <ChooseDiv
                       style={{
                         border:
-                          base.Online_service !== null
+                          base.Online_service !== ""
                             ? "1px solid #483eff"
                             : "1px solid #D6D9E6",
                       }}
                       onClick={() => {
-                        if (base.Online_service !== null) {
+                        if (base.Online_service !== "") {
                           dispatch(
                             setBase({
                               property: "Online_service",
-                              value: null,
+                              value: "",
                             })
                           );
                         } else
@@ -79,12 +79,12 @@ export default function Addons() {
                       <CheckBox
                         style={{
                           background:
-                            base.Online_service !== null ? "#483EFF" : "white",
+                            base.Online_service !== "" ? "#483EFF" : "white",
                           borderColor:
-                            base.Online_service !== null ? "#D6D9E6" : "",
+                            base.Online_service !== "" ? "#D6D9E6" : "",
                         }}
                       >
-                        {base.Online_service !== null ? (
+                        {base.Online_service !== "" ? (
                           <img src="icon-checkmark.svg" />
                         ) : null}
                       </CheckBox>
@@ -99,16 +99,16 @@ export default function Addons() {
                     <ChooseDiv
                       style={{
                         border:
-                          base.Larger_storage !== null
+                          base.Larger_storage !== ""
                             ? "1px solid #483eff"
                             : "1px solid #D6D9E6",
                       }}
                       onClick={() => {
-                        if (base.Larger_storage !== null) {
+                        if (base.Larger_storage !== "") {
                           dispatch(
                             setBase({
                               property: "Larger_storage",
-                              value: null,
+                              value: "",
                             })
                           );
                         } else
@@ -123,12 +123,12 @@ export default function Addons() {
                       <CheckBox
                         style={{
                           background:
-                            base.Larger_storage !== null ? "#483EFF" : "white",
+                            base.Larger_storage !== "" ? "#483EFF" : "white",
                           borderColor:
-                            base.Larger_storage !== null ? "#D6D9E6" : "",
+                            base.Larger_storage !== "" ? "#D6D9E6" : "",
                         }}
                       >
-                        {base.Larger_storage !== null ? (
+                        {base.Larger_storage !== "" ? (
                           <img src="icon-checkmark.svg" />
                         ) : null}
                       </CheckBox>
@@ -143,16 +143,16 @@ export default function Addons() {
                     <ChooseDiv
                       style={{
                         border:
-                          base.Customizable_profile !== null
+                          base.Customizable_profile !== ""
                             ? "1px solid #483eff"
                             : "1px solid #D6D9E6",
                       }}
                       onClick={() => {
-                        if (base.Customizable_profile !== null) {
+                        if (base.Customizable_profile !== "") {
                           dispatch(
                             setBase({
                               property: "Customizable_profile",
-                              value: null,
+                              value: "",
                             })
                           );
                         } else
@@ -167,14 +167,14 @@ export default function Addons() {
                       <CheckBox
                         style={{
                           background:
-                            base.Customizable_profile !== null
+                            base.Customizable_profile !== ""
                               ? "#483EFF"
                               : "white",
                           borderColor:
-                            base.Customizable_profile !== null ? "#D6D9E6" : "",
+                            base.Customizable_profile !== "" ? "#D6D9E6" : "",
                         }}
                       >
-                        {base.Customizable_profile !== null ? (
+                        {base.Customizable_profile !== "" ? (
                           <img src="icon-checkmark.svg" />
                         ) : null}
                       </CheckBox>

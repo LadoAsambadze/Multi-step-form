@@ -7,9 +7,9 @@ interface BaseType {
   number: string;
   mode: string;
   price: number;
-  Online_service: string | null;
-  Larger_storage: string | null;
-  Customizable_profile: string | null;
+  Online_service: string;
+  Larger_storage: string;
+  Customizable_profile: string;
 }
 
 type door = keyof BaseType;
@@ -25,9 +25,9 @@ const base: BaseType = {
   number: " ",
   mode: "",
   price: 0,
-  Online_service: null,
-  Larger_storage: null,
-  Customizable_profile: null,
+  Online_service: "",
+  Larger_storage: "",
+  Customizable_profile: "",
 };
 
 const dataBase = createSlice({
