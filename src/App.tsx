@@ -14,12 +14,11 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const newBase = JSON.parse(localStorage.getItem("base")) || base;
+    const baseItem = localStorage.getItem("base");
+    const newBase = baseItem ? JSON.parse(baseItem) : base;
     dispatch(updateLocal(newBase));
   }, []);
 
-  
-  
   return (
     <>
       <Routes>
