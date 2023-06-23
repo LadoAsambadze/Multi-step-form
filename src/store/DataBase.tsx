@@ -2,9 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface BaseType {
   [key: string]: string | number | null;
-  name: string;
+  name: string | null;
   email: string;
-  number: number;
+  number: string;
   mode: string;
   price: number;
   Online_service: string | null;
@@ -21,8 +21,8 @@ interface BasePayload {
 
 const base: BaseType = {
   name: "",
-  email: "",
-  number: 0,
+  email: " ",
+  number: " ",
   mode: "",
   price: 0,
   Online_service: null,

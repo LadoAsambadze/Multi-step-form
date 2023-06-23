@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux/es/exports";
 import { setPage } from "../store/PageNum";
 import Thank from "../Components/Thank";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Finish() {
@@ -16,6 +16,7 @@ export default function Finish() {
   const options = ["Online_service", "Larger_storage", "Customizable_profile"];
   const [thank, setThank] = useState<boolean>(false);
   const [mobile, setMobile] = useState<boolean>(false);
+
   const backHandler = () => {
     dispatch(setPage(3));
     navigate("/addons");
@@ -36,12 +37,24 @@ export default function Finish() {
 
   const postData = async (base: any) => {
     try {
-      const response = await axios.post("http://localhost:3000/api", base);
+      const response = await axios.post("http://localhost:3000/postbase", base);
       console.log(response.data.info);
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    const storedThank = localStorage.getItem("thank");
+    if (storedThank === "true") {
+      navigate("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("thank", thank.toString());
+  }, [thank]);
+
+  // ...
 
   return (
     <>
@@ -102,6 +115,7 @@ export default function Finish() {
                       onClick={() => {
                         setThank(true);
                         postData(base);
+                        localStorage.clear();
                       }}
                       type="button"
                     >
@@ -125,6 +139,7 @@ export default function Finish() {
                 setThank(true);
                 postData(base);
                 setMobile(true);
+                localStorage.clear();
               }}
             >
               Confirm

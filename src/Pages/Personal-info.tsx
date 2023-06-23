@@ -16,12 +16,15 @@ interface Type {
   number: number;
 }
 export default function PersonalInfo() {
-  const { register, formState } = useForm<Type>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Type>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const base = useSelector((store: any) => store.base);
   const [hasMounted, setHasMounted] = useState<boolean>(false);
-  const { isValid } = formState;
 
   useEffect(() => {
     hasMounted
@@ -29,17 +32,22 @@ export default function PersonalInfo() {
       : setHasMounted(true);
   }, [base, hasMounted]);
 
-  const nextHandler = () => {
-    if (isValid) {
-      dispatch(setPage(2));
-      navigate("/plan");
+  const onSubmit = async (data: Type) => {
+    dispatch(setPage(2));
+    navigate("/plan");
+    console.log(data);
+  };
+
+  const handleKeyPress = (e: any) => {
+    if (/\d/.test(e.key)) {
+      e.preventDefault();
     }
   };
 
   return (
     <>
       <Section>
-        <SectionBack>
+        <SectionBack onSubmit={handleSubmit(onSubmit)}>
           <DesktopPages />
           <Main>
             <Mobile />
@@ -54,13 +62,17 @@ export default function PersonalInfo() {
                 <Form>
                   <Label style={{ marginTop: 0 }}>
                     <LabelP>Full name</LabelP>
-                    <Error>This field is required</Error>
+                    <Error style={{ display: errors.name ? "block" : "none" }}>
+                      This field is required
+                    </Error>
                   </Label>
                   <Input
+                    onKeyPress={handleKeyPress}
                     placeholder="e.g. Stephen King"
-                    type="string"
-                    {...(register("name", { required: true }),
-                    {
+                    {...register("name", {
+                      required: true,
+
+                      pattern: /^[A-Za-z\s]+$/,
                       onChange: (e) => {
                         dispatch(
                           setBase({ property: "name", value: e.target.value })
@@ -71,13 +83,17 @@ export default function PersonalInfo() {
                   />
                   <Label>
                     <LabelP>Email Adress</LabelP>
-                    <Error>This field is required</Error>
+                    <Error
+                      style={{ display: errors.email ? "block  " : "none" }}
+                    >
+                      This field is required
+                    </Error>
                   </Label>
                   <Input
                     placeholder="e.g. stephenking@lorem.com"
                     type="email"
-                    {...(register("email", { required: true }),
-                    {
+                    {...register("email", {
+                      required: true,
                       onChange: (e) => {
                         dispatch(
                           setBase({ property: "email", value: e.target.value })
@@ -88,13 +104,17 @@ export default function PersonalInfo() {
                   />
                   <Label>
                     <LabelP>Phone Number</LabelP>
-                    <Error>This field is required</Error>
+                    <Error
+                      style={{ display: errors.number ? "block  " : "none" }}
+                    >
+                      This field is required
+                    </Error>
                   </Label>
                   <Input
                     placeholder="e.g. +1 234 567 890"
                     type="number"
-                    {...(register("number", { required: true }),
-                    {
+                    {...register("number", {
+                      required: true,
                       onChange: (e) => {
                         dispatch(
                           setBase({ property: "number", value: e.target.value })
@@ -104,7 +124,7 @@ export default function PersonalInfo() {
                     value={base.number}
                   />
                   <NextDivDesktop>
-                    <NextButtonDesktop onClick={nextHandler}>
+                    <NextButtonDesktop type="submit">
                       Next Step
                     </NextButtonDesktop>
                   </NextDivDesktop>
@@ -113,7 +133,7 @@ export default function PersonalInfo() {
             </div>
           </Main>
           <NextDiv>
-            <NextButton onClick={nextHandler}>Next Step</NextButton>
+            <NextButton type="submit">Next Step</NextButton>
           </NextDiv>
         </SectionBack>
       </Section>
@@ -133,7 +153,7 @@ const Section = styled.section`
     background: #eff5ff;
   }
 `;
-const SectionBack = styled.div`
+const SectionBack = styled.form`
   display: flex;
   flex-direction: column;
 
@@ -198,7 +218,7 @@ const Instruction = styled.p`
   }
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   margin-top: 22px;
   display: flex;
   flex-direction: column;

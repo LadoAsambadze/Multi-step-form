@@ -15,7 +15,7 @@ export default function Addons() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [hasMounted, setHasMounted] = useState(false);
+  const [hasMounted, setHasMounted] = useState<boolean>(false);
 
   useEffect(() => {
     hasMounted
@@ -36,13 +36,6 @@ export default function Addons() {
     dispatch(setPage(2));
     navigate("/plan");
   };
-  // useEffect(() => {
-  //   dispatch(setBase({ property: "online", value: null }));
-  //   dispatch(setBase({ property: "local", value: null }));
-  //   dispatch(setBase({ property: "profile", value: null }));
-  //   const update = JSON.parse(localStorage.getItem("base") || "false");
-  //   dispatch(setBase(update));
-  // }, [active]);
 
   return (
     <>
