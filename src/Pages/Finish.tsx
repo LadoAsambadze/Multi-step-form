@@ -37,7 +37,7 @@ export default function Finish() {
 
   const postData = async (base: any) => {
     try {
-      const response = await axios.post("http://localhost:3000/postbase", base);
+      const response = await axios.post("https://multi-step-form-backend-production.up.railway.app/postbase", base);
       console.log(response.data.info);
     } catch (error) {
       console.log(error);
